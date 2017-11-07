@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="space_battle"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/clementfrancois/Documents/SpaceBattle"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="googletest">
+				<Option output="C:/Users/clementfrancois/Documents/SpaceBattle/libgoogletest.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/clementfrancois/Documents/SpaceBattle"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/googletest/googletest"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/googletest/googletest/include"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/include"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/include/boost"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/protocol/include"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/backward"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include-fixed"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 googletest"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="googletest/fast">
+				<Option output="C:/Users/clementfrancois/Documents/SpaceBattle/libgoogletest.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/clementfrancois/Documents/SpaceBattle"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/googletest/googletest"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/googletest/googletest/include"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/include"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/include/boost"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/protocol/include"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/backward"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include-fixed"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 googletest/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="space_battle_server_test">
+				<Option output="C:/Users/clementfrancois/Documents/SpaceBattle/space_battle_server_test.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/clementfrancois/Documents/SpaceBattle"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/googletest/googletest"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/googletest/googletest/include"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/include"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/include/boost"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/protocol/include"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/./server/test/include"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/backward"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include-fixed"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 space_battle_server_test"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="space_battle_server_test/fast">
+				<Option output="C:/Users/clementfrancois/Documents/SpaceBattle/space_battle_server_test.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/clementfrancois/Documents/SpaceBattle"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/googletest/googletest"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/googletest/googletest/include"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/include"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/include/boost"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/protocol/include"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/./server/test/include"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/backward"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include-fixed"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 space_battle_server_test/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/clementfrancois/Documents/SpaceBattle"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="protocole_test">
+				<Option output="C:/Users/clementfrancois/Documents/SpaceBattle/protocole_test.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/clementfrancois/Documents/SpaceBattle"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/googletest/googletest"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/googletest/googletest/include"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/include"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/include/boost"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/protocol/include"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/backward"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include-fixed"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 protocole_test"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="protocole_test/fast">
+				<Option output="C:/Users/clementfrancois/Documents/SpaceBattle/protocole_test.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/clementfrancois/Documents/SpaceBattle"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/googletest/googletest"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/googletest/googletest/include"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/include"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/external/include/boost"/>
+					<Add directory="C:/Users/clementfrancois/Documents/SpaceBattle/protocol/include"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/backward"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/include-fixed"/>
+					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/7.1.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 protocole_test/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/clementfrancois/Documents/SpaceBattle"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/clementfrancois/Documents/SpaceBattle/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/clementfrancois/Documents/SpaceBattle/external/googletest/googletest/src/gtest-all.cc">
+			<Option target="googletest"/>
+		</Unit>
+		<Unit filename="C:/Users/clementfrancois/Documents/SpaceBattle/external/googletest/googletest/src/gtest_main.cc">
+			<Option target="googletest"/>
+		</Unit>
+		<Unit filename="C:/Users/clementfrancois/Documents/SpaceBattle/protocol/include/Net.hpp">
+			<Option target="protocole_test"/>
+		</Unit>
+		<Unit filename="C:/Users/clementfrancois/Documents/SpaceBattle/protocol/include/NetEngine.hpp">
+			<Option target="protocole_test"/>
+		</Unit>
+		<Unit filename="C:/Users/clementfrancois/Documents/SpaceBattle/protocol/include/NetIO.hpp">
+			<Option target="protocole_test"/>
+		</Unit>
+		<Unit filename="C:/Users/clementfrancois/Documents/SpaceBattle/protocol/include/NetIOBusinessData.hpp">
+			<Option target="protocole_test"/>
+		</Unit>
+		<Unit filename="C:/Users/clementfrancois/Documents/SpaceBattle/protocol/src/Net.cpp">
+			<Option target="protocole_test"/>
+		</Unit>
+		<Unit filename="C:/Users/clementfrancois/Documents/SpaceBattle/protocol/src/NetIOBusinessData.cpp">
+			<Option target="protocole_test"/>
+		</Unit>
+		<Unit filename="C:/Users/clementfrancois/Documents/SpaceBattle/protocol/test/NetTest.cpp">
+			<Option target="protocole_test"/>
+		</Unit>
+		<Unit filename="C:/Users/clementfrancois/Documents/SpaceBattle/protocol/test/serializationTest.cpp">
+			<Option target="protocole_test"/>
+		</Unit>
+		<Unit filename="C:/Users/clementfrancois/Documents/SpaceBattle/server/test/client/SimpleClient.cpp">
+			<Option target="space_battle_server_test"/>
+		</Unit>
+		<Unit filename="C:/Users/clementfrancois/Documents/SpaceBattle/server/test/simple_test.cpp">
+			<Option target="space_battle_server_test"/>
+		</Unit>
+		<Unit filename="C:/Users/clementfrancois/Documents/SpaceBattle/server/test/test_main.cpp">
+			<Option target="protocole_test"/>
+		</Unit>
+		<Unit filename="C:/Users/clementfrancois/Documents/SpaceBattle/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
