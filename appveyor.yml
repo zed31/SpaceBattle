@@ -13,7 +13,7 @@ install:
 
 before_build:
   - cmake -G "Visual Studio 15 2017 Win64" .
-  - ls -l C:/projects/spacebattle
+  - ls -l C:/projects/spacebattle-hyrl
 
 build:
   project: $(APPVEYOR_BUILD_FOLDER)/space_battle.sln
