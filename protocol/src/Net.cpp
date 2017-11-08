@@ -14,7 +14,7 @@ Net::Net(asio::io_service &io_service)
 //NetServer implementation
 
 NetServer::NetServer(asio::io_service &io_service, const tcp::endpoint &endpoint)
-    : Net{ io_service }, m_acceptor{ io_service, endpoint } {}
+    : Net{ io_service }, m_socket{ io_service }, m_acceptor{ io_service, endpoint } {}
 
 //NetClient implementation
 NetClient::NetClient(asio::io_service &io_service, tcp::resolver::iterator endpoint_iterator)

@@ -48,16 +48,16 @@ public:
     */
     template<typename CallbackSuccess>
     void accept(CallbackSuccess &&success_callback) {
-        /* m_acceptor.async_accept(m_socket, [&, this] (std::error_code ec) {
+        m_acceptor.async_accept(m_socket, [&, this] (std::error_code ec) {
             if (!ec) {
                 success_callback(std::move(m_socket));
             }
             accept(success_callback);
-        }); */
+        });
     }
 private:
     tcp::acceptor m_acceptor;
-    //tcp::socket m_socket;
+    tcp::socket m_socket;
 };
 
 /*! \brief This class is used to handle client connection
@@ -79,11 +79,12 @@ public:
      * takes the std::error_code as argument.
     */
     template<typename CallbackSuccess, typename CallbackFailure>
-    void doConnect(CallbackSuccess &&connection_success, CallbackFailure &&connection_failure) {
+    void connect(CallbackSuccess &&connection_success, CallbackFailure &&connection_failure) {
         asio::async_connect(m_socket, m_endpoint_iterator, [&, this] (std::error_code ec, tcp::resolver::iterator) {
             if (!ec) {
                 connection_success(std::move(m_socket));
             } else {
+                std::cout << "failure" << std::endl;
                 connection_failure(ec);
             }
         });
