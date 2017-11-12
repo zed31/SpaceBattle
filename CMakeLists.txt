@@ -21,7 +21,7 @@ include_directories(
 set(GOOGLETEST_SOURCES
         ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/src/gtest-all.cc
         ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/src/gtest_main.cc
-        )
+        protocol/include/Client.h)
 
 foreach(_source ${GOOGLETEST_SOURCES})
     set_source_files_properties(${_source} PROPERTIES GENERATED 1)
@@ -50,22 +50,21 @@ target_link_libraries(
         Threads::Threads
 )
 
+#################################################
+#PROTOCOLE
+#################################################
+
 set(
         PROTOCOL_SRC
-        protocol/include/NetIOBusinessData.hpp
-        protocol/include/NetEngine.hpp
-        protocol/include/Net.hpp
-        protocol/src/NetIOBusinessData.cpp
-        protocol/test/NetEngine.cpp
-        protocol/test/NetEngineClientServer.cpp)
+        protocol/include/Server.hpp
+        protocol/src/Server.cpp
+        protocol/include/Client.hpp protocol/src/Client.cpp)
 
 add_executable(
         protocole_test
-        protocol/test/serializationTest.cpp
         ${PROTOCOL_SRC}
-        protocol/include/NetIO.hpp
-        protocol/src/Net.cpp
-        server/test/test_main.cpp)
+        protocol/test/server.cpp
+)
 
 target_include_directories(protocole_test INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/include)
 
@@ -75,6 +74,57 @@ target_link_libraries(
         googletest
         Threads::Threads
 )
+
+#################################################
+#SERVER
+#################################################
+
+set(
+        PROTOCOL_SERVER_SRC
+        protocol/include/Server.hpp
+        protocol/src/Server.cpp
+)
+
+add_executable(
+        server
+        ${PROTOCOL_SERVER_SRC}
+        protocol/test/server.cpp
+)
+
+target_include_directories(server INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/include)
+
+add_dependencies(server googletest)
+target_link_libraries(
+        server
+        googletest
+        Threads::Threads
+)
+
+#################################################
+#CLIENT
+#################################################
+
+set(
+        PROTOCOL_CLIENT_SRC
+        protocol/include/Client.hpp
+        protocol/src/Client.cpp
+)
+
+add_executable(
+        client
+        ${PROTOCOL_CLIENT_SRC}
+        protocol/test/client.cpp
+        protocol/test/client.cpp)
+
+target_include_directories(client INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/include)
+
+add_dependencies(client googletest)
+target_link_libraries(
+        client
+        googletest
+        Threads::Threads
+)
+
 
 if(MINGW)
     target_link_libraries(protocole_test user32 wsock32 ws2_32)
