@@ -5,6 +5,8 @@
 #ifndef SPACE_BATTLE_NET_HPP
 #define SPACE_BATTLE_NET_HPP
 
+#include <utility>
+#include <iostream>
 #include "asio.hpp"
 
 namespace protocol {
@@ -37,7 +39,7 @@ public:
      * @param[in]   io_service  The io_service used by the server to run the event loop
      * @param[in]   endpoint    The endpoint used to connect to them
     */
-    NetServer(asio::io_service &io_service, const tcp::endpoint &endpoint);
+    NetServer(asio::io_service &io_service, const tcp::endpoint &endpoint, unsigned limit = 1);
 
     /*! \brief accept the connection from client and server
      * This function accept a connection between the client and the server, the callback is called when a client
@@ -48,16 +50,22 @@ public:
     */
     template<typename CallbackSuccess>
     void accept(CallbackSuccess &&success_callback) {
-        m_acceptor.async_accept(m_socket, [&, this] (std::error_code ec) {
+        if (m_limit == 0) {
+            return ;
+        }
+        --m_limit;
+        m_acceptor.async_accept(*m_socket, [&, this] (std::error_code ec) {
             if (!ec) {
                 success_callback(std::move(m_socket));
             }
-            accept(success_callback);
+            m_socket = std::make_unique<tcp::socket>(*m_io_service);
+            this->accept(success_callback);
         });
     }
 private:
     tcp::acceptor m_acceptor;
-    tcp::socket m_socket;
+    std::unique_ptr<tcp::socket> m_socket;
+    unsigned m_limit;
 };
 
 /*! \brief This class is used to handle client connection
@@ -80,11 +88,11 @@ public:
     */
     template<typename CallbackSuccess, typename CallbackFailure>
     void connect(CallbackSuccess &&connection_success, CallbackFailure &&connection_failure) {
-        asio::async_connect(m_socket, m_endpoint_iterator, [&, this] (std::error_code ec, tcp::resolver::iterator) {
+        asio::async_connect(*m_socket, m_endpoint_iterator, [&, this] (std::error_code ec, tcp::resolver::iterator) {
             if (!ec) {
                 connection_success(std::move(m_socket));
             } else {
-                std::cout << "failure" << std::endl;
+                std::cout << "error : " << ec.message() << std::endl;
                 connection_failure(ec);
             }
         });
@@ -96,7 +104,7 @@ public:
     void close();
 private:
     tcp::resolver::iterator m_endpoint_iterator;
-    tcp::socket m_socket;
+    std::unique_ptr<tcp::socket> m_socket;
 };
 
 } // namespace protocol

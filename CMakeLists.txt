@@ -7,7 +7,7 @@ set(PROTOCOL protocol)
 if (CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-value -Wno-unused-parameter -Wno-unused-function -DBOOST_ERROR_CODE_HEADER_ONLY -DASIO_STANDALONE -DBOOST_SYSTEM_NO_DEPRECATED")
 elseif (MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W3 -DBOOST_ERROR_CODE_HEADER_ONLY -DASIO_STANDALONE -DBOOST_SYSTEM_NO_DEPRECATED -D_SCL_SECURE_NO_WARNINGS")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 -DBOOST_ERROR_CODE_HEADER_ONLY -DASIO_STANDALONE -DBOOST_SYSTEM_NO_DEPRECATED -D_SCL_SECURE_NO_WARNINGS")
 endif ()
 
 include_directories(
@@ -15,6 +15,7 @@ include_directories(
         ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/include
         ${EXTERNAL_LIBS}/include
         ${PROTOCOL}/include
+        ${PROTOCOL_API_FOLDER}/include
 )
 
 set(GOOGLETEST_SOURCES
@@ -54,8 +55,9 @@ set(
         protocol/include/NetIOBusinessData.hpp
         protocol/include/NetEngine.hpp
         protocol/include/Net.hpp
-        protocol/test/NetTest.cpp
-        protocol/src/NetIOBusinessData.cpp)
+        protocol/src/NetIOBusinessData.cpp
+        protocol/test/NetEngine.cpp
+        protocol/test/NetEngineClientServer.cpp)
 
 add_executable(
         protocole_test

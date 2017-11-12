@@ -91,7 +91,7 @@ struct HeaderUtility {
 class Body {
 public:
     /*! \brief Default construction of the Body class */
-    Body() = default;
+    Body() : m_body_length{ 0 } {};
 
     /*! \brief Construct the body with a set of data
      * @param[in] in    the initializer list used to generate the body
@@ -210,6 +210,12 @@ struct Request {
             short revision = HeaderUtility::default_rev_,
             OpCode opCode = OpCode::CLIENT_DISCONNECT, unsigned bufferSize = HeaderUtility::default_buffer_size_) noexcept;
 
+    /*! \brief Construct the request with the header and the body of a request
+     * @param[in] h     The header of the request
+     * @param[in] b     The body of the request
+    */
+    Request(const HeaderRequest &h, const Body &b) : header{ h }, body{ b } {};
+
     /*! \brief Construct the request with the header and the body
      * @param[in]       magic       The magic number of the request
      * @param[in]       revision    The revision of the request
@@ -240,11 +246,16 @@ struct Response {
     HeaderResponse header; /*!< Header of the response */
     Body body; /*!< Body of the response */
 
-    /*! \brief Construct the request with the default value of the header and the body */
+    /*! \brief Construct the response with the default value of the header and the body */
     Response(char magic = HeaderUtility::default_magic_,
             short revision = HeaderUtility::default_rev_,
             StatusCode statusCode = StatusCode::OK, unsigned bufferSize = HeaderUtility::default_buffer_size_) noexcept;
 
+
+    /*! \brief Construct the response with the header and the body
+     * @param[in]   h   The header of the response
+     * @param[in]   b   The body of the response
+    */
     Response(const HeaderResponse &h, const Body &b) : header{ h }, body{ b } {};
 
     /*! \brief Construct the request with the header and the body

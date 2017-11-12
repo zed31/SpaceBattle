@@ -215,11 +215,13 @@ void Body::data(char *dest) const noexcept {
 void Request::data(char *dest) const {
     auto headerSize = header.size();
     header.data(&dest[0]);
-    body.data(&dest[headerSize]);
+    if (body.size()) {
+        body.data(&dest[headerSize]);
+    }
 }
 
 Request::Request(char magic, short revision, OpCode opcode, unsigned bufferSize) noexcept
-    : header{magic, revision, opcode, bufferSize}, body{} {}
+    : header{magic, revision, opcode, bufferSize} {}
 
 Request::Request(const char *buffer, std::size_t buffer_length)
     : header{ &buffer[0], buffer_length },
