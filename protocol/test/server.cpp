@@ -3,10 +3,17 @@
 //
 
 #include <thread>
-#include "Server.hpp"
+#include "server.hpp"
 
 int main() {
-    protocol::Server s{6060};
+    protocol::server s{6060};
+
+    auto on_read = [] (const protocol::serialize::Request &request, protocol::InputConnection &out) {
+        std::cerr << "Read succeed, " << request.size() << std::endl;
+        out.write();
+    };
+
+    s.on_read_succeed(on_read);
     s.run();
     return 0;
 }
