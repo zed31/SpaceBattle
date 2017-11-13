@@ -73,7 +73,8 @@ int main() {
              * Define it when you want to handle the close of the session, of course you should
              * stop the client !
             */
-            auto on_close = [&] () {
+            auto on_close = [&] (protocol::OutputConnection &) {
+                std::cerr << "Stoping the server" << std::endl;
                 client.stop();
             };
             outputConnection.on_close(on_close);
@@ -82,10 +83,18 @@ int main() {
             protocol::serialize::Request r{};
             outputConnection.write(r);
         };
+
+        auto on_connection_fails = [&]() {
+            std::cerr << "Stopping the connection" << std::endl;
+            client.stop();
+        };
+
         /*
          * Used to bind the "on_connect" function within the client.
         */
         client.on_connect(on_connect);
+
+        client.on_connection_failed(on_connection_fails);
         /*
          * This example use the client inside another thread, but you can define it in the main thread by using the
          * run function (after defining the on_connect method of course) :

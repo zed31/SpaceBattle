@@ -5,6 +5,11 @@
 #include "server.hpp"
 
 namespace protocol {
+    InputConnection::~InputConnection() {
+        m_socket.shutdown(tcp::socket::shutdown_both);
+        m_socket.close();
+    }
+
     void InputConnection::read() {
 
         auto read_socket = [&, this](std::error_code ec, std::size_t length) {
@@ -95,6 +100,7 @@ namespace protocol {
                 std::cout << "New connection occur ..." << std::endl;
                 m_waiting_connection->on_accept();
                 m_connections.push_back(std::move(m_waiting_connection));
+                //m_on_accept();
                 accept();
             }
         };
@@ -119,6 +125,10 @@ namespace protocol {
 
     void server::on_close(const on_close_t &onClose) {
         m_on_close = onClose;
+    }
+
+    void server::on_accept(const on_accept_t &onAccept) {
+        m_on_accept = onAccept;
     }
 
     void server::run() {

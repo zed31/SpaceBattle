@@ -24,12 +24,14 @@ using on_read_t = std::function<void(const serialize::Request &, InputConnection
 using on_write_failed_t = std::function<void(std::error_code, InputConnection &)>;
 using on_read_failed_t = std::function<void(std::error_code, InputConnection &)>;
 using on_close_t = std::function<void()>;
+using on_accept_t = std::function<void()>;
 
 class InputConnection {
     friend class server;
 public:
     InputConnection(server &server, asio::io_service &service)
         : m_server{ server }, m_socket{ service } {};
+    ~InputConnection();
     void write(const serialize::Response &response);
 private:
     void on_accept();
@@ -62,6 +64,7 @@ public:
     void on_read_succeed(const on_read_t &onReadSucceed);
     void on_read_failed(const on_read_failed_t &onReadFailed);
     void on_close(const on_close_t &onClose);
+    void on_accept(const on_accept_t &onAccept);
     void stop();
 private:
     void accept();
@@ -71,6 +74,7 @@ private:
     on_write_failed_t m_on_write_failed;
     on_read_failed_t m_on_read_failed;
     on_close_t m_on_close;
+    on_accept_t m_on_accept;
     asio::io_service m_service;
     tcp::endpoint m_endpoint;
     tcp::acceptor m_acceptor;

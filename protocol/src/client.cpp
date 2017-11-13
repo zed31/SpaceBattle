@@ -100,7 +100,7 @@ void OutputConnection::write(const protocol::serialize::Request &request) {
 void OutputConnection::close() {
     m_socket.shutdown(asio::ip::tcp::socket::shutdown_both);
     m_socket.close();
-    //TODO : Insert on_close here
+    if (m_on_close) m_on_close(*this);
 }
 
 
@@ -117,6 +117,10 @@ void client::on_connect(const std::function<void(OutputConnection&)> &onConnect)
     m_on_connect = onConnect;
 }
 
+void client::on_connection_failed(const std::function<void()> &onConnectionFailed) {
+    m_on_connect_failed = onConnectionFailed;
+}
+
 void client::connect() {
     auto connect_socket = [&, this] (std::error_code ec, tcp::resolver::iterator) {
         if (!ec) {
@@ -124,6 +128,7 @@ void client::connect() {
             if (m_on_connect) m_on_connect(m_connection);
         } else {
             std::cerr << "client::connect Error on connection : " << ec.message() << std::endl;
+            if (m_on_connect_failed) m_on_connect_failed();
         }
     };
     auto endpoint_iterator = m_resolver.resolve({m_host, m_port});

@@ -52,99 +52,47 @@ set(
         protocol/src/serialization/request.cpp
         protocol/include/serialization/response.hpp
         protocol/src/serialization/response.cpp
-        protocol/test/data_serialization.cpp
-        protocol/test/test_protocole.cpp
 )
 
-add_executable(
-        protocole_test
+add_library(
+        space_proto
         ${PROTOCOL_SRC}
 )
 
-target_include_directories(protocole_test INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/include)
+target_include_directories(space_proto INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/include)
 
-target_link_libraries(
-        protocole_test
-        googletest
-        Threads::Threads
-)
 
 #################################################
 #SERVER
 #################################################
 
-set(
-        PROTOCOL_SERVER_SRC
-       protocol/include/server.hpp
-       protocol/src/server.cpp
-       protocol/include/serialization/request.hpp
-       protocol/include/serialization/data_utils.hpp
-       protocol/include/serialization/body.hpp
-       protocol/src/serialization/body.cpp
-       protocol/src/serialization/request.cpp
-       protocol/include/serialization/response.hpp
-       protocol/src/serialization/response.cpp
-)
-
 add_executable(
        server
-       ${PROTOCOL_SERVER_SRC}
        protocol/test/server.cpp
 )
 
 target_include_directories(server INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/include)
 target_link_libraries(
         server
+        space_proto
         Threads::Threads
 )
 
 #################################################
-#CLIENT
+#CLIENT STUB
 #################################################
 
-set(
-       PROTOCOL_CLIENT_SRC
-       protocol/include/client.hpp
-       protocol/src/client.cpp
-       protocol/include/serialization/request.hpp
-       protocol/include/serialization/data_utils.hpp
-       protocol/include/serialization/body.hpp
-       protocol/src/serialization/body.cpp
-       protocol/src/serialization/request.cpp
-       protocol/include/serialization/response.hpp
-       protocol/src/serialization/response.cpp
-)
 add_executable(
        client
-       ${PROTOCOL_CLIENT_SRC}
        protocol/test/client.cpp
-       protocol/test/client.cpp)
+)
+
 target_include_directories(client INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/include)
 
 target_link_libraries(
        client
+       space_proto
        Threads::Threads
-)
-
-
-#################################################
-#TRUC DE MERDE
-#################################################
-
-set(TEST_FOLDER ./server/test)
-set(TEST_FOLDER_UTILS_CLIENT ./server/test/client)
-
-add_executable(
-        space_battle_server_test
-        ${TEST_FOLDER}/simple_test.cpp
-        ${TEST_FOLDER_UTILS_CLIENT}/SimpleClient.cpp
-)
-target_include_directories(space_battle_server_test INTERFACE PUBLIC ${TEST_FOLDER}/include)
-target_include_directories(space_battle_server_test INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/include)
-
-target_link_libraries(
-        space_battle_server_test
-        Threads::Threads
 )
 
 if(MINGW)
