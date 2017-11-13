@@ -59,14 +59,17 @@ namespace protocol {
         read();
     }
 
-    void InputConnection::write() {
+    void InputConnection::write(const serialize::Response &response) {
+        m_buff_response = new char[response.size()];
+        response.data(m_buff_response);
+        m_current_response = response;
         auto write_socket = [&, this](std::error_code ec, std::size_t length) {
             std::cout << "writing something of " << length << std::endl;
 
             if (!ec) {
 
                 std::cerr << "Write complete !" << std::endl;
-                if (m_on_write_succeed) m_on_write_succeed(*this);
+                if (m_on_write_succeed) m_on_write_succeed(m_current_response, *this);
 
             } else {
 
@@ -75,7 +78,7 @@ namespace protocol {
 
             }
         };
-        asio::async_write(m_socket, asio::buffer(m_data, 26), write_socket);
+        asio::async_write(m_socket, asio::buffer(m_buff_response, response.size()), write_socket);
     }
 }
 
@@ -98,23 +101,23 @@ namespace protocol {
         m_acceptor.async_accept(m_waiting_connection->m_socket, accept_complete);
     }
 
-    void server::on_read_failed(const std::function<void(std::error_code, InputConnection &)> &onReadFailed) {
+    void server::on_read_failed(const on_read_failed_t &onReadFailed) {
         m_on_read_failed = onReadFailed;
     }
 
-    void server::on_read_succeed(const std::function<void(const serialize::Request &, InputConnection &)> &onReadSucceed) {
+    void server::on_read_succeed(const on_read_t &onReadSucceed) {
         m_on_read = onReadSucceed;
     }
 
-    void server::on_write_failed(const std::function<void(std::error_code, InputConnection &)> &onWriteFailed) {
+    void server::on_write_failed(const on_write_failed_t &onWriteFailed) {
         m_on_write_failed = onWriteFailed;
     }
 
-    void server::on_write_succeed(const std::function<void(InputConnection &)> &onWriteSucceed) {
+    void server::on_write_succeed(const on_write_success_t &onWriteSucceed) {
         m_on_write_succeed = onWriteSucceed;
     }
 
-    void server::on_close(const std::function<void()> &onClose) {
+    void server::on_close(const on_close_t &onClose) {
         m_on_close = onClose;
     }
 

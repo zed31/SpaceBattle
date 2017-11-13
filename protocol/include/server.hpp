@@ -17,28 +17,38 @@ using asio::ip::tcp;
 
 namespace protocol {
 
+class InputConnection;
+class server;
+using on_write_success_t = std::function<void(const serialize::Response &, InputConnection &)>;
+using on_read_t = std::function<void(const serialize::Request &, InputConnection &)>;
+using on_write_failed_t = std::function<void(std::error_code, InputConnection &)>;
+using on_read_failed_t = std::function<void(std::error_code, InputConnection &)>;
+using on_close_t = std::function<void()>;
+
 class InputConnection {
     friend class server;
 public:
     InputConnection(server &server, asio::io_service &service)
         : m_server{ server }, m_socket{ service } {};
-    void write();
+    void write(const serialize::Response &response);
 private:
     void on_accept();
     void read();
     void read_body(const serialize::HeaderRequest &request);
     void close();
 private:
-    std::function<void(const serialize::Request &, InputConnection &)> m_on_read;
-    std::function<void(InputConnection &)> m_on_write_succeed;
-    std::function<void(std::error_code, InputConnection &)> m_on_write_failed;
-    std::function<void(std::error_code, InputConnection &)> m_on_read_failed;
-    std::function<void()> m_on_close;
+    on_read_t m_on_read;
+    on_write_success_t m_on_write_succeed;
+    on_write_failed_t m_on_write_failed;
+    on_read_failed_t m_on_read_failed;
+    on_close_t m_on_close;
     server &m_server;
     tcp::socket m_socket;
     std::array<char, 25> m_data;
     char *m_body;
+    char *m_buff_response;
     serialize::HeaderRequest m_current_header_request;
+    serialize::Response m_current_response;
 };
 
 class server {
@@ -47,20 +57,20 @@ public:
         : m_endpoint{ tcp::v4(), port }, m_acceptor{ m_service, m_endpoint } {};
 
     void run();
-    void on_write_succeed(const std::function<void(InputConnection &)> &onWriteSucceed);
-    void on_write_failed(const std::function<void(std::error_code, InputConnection &)> &onWriteFaied);
-    void on_read_succeed(const std::function<void(const serialize::Request &, InputConnection &)> &onReadSucceed);
-    void on_read_failed(const std::function<void(std::error_code, InputConnection &)> &onReadFailed);
-    void on_close(const std::function<void()> &onClose);
+    void on_write_succeed(const on_write_success_t &onWriteSucceed);
+    void on_write_failed(const on_write_failed_t &onWriteFaied);
+    void on_read_succeed(const on_read_t &onReadSucceed);
+    void on_read_failed(const on_read_failed_t &onReadFailed);
+    void on_close(const on_close_t &onClose);
     void stop();
 private:
     void accept();
 private:
-    std::function<void(const serialize::Request &, InputConnection &)> m_on_read;
-    std::function<void(InputConnection &)> m_on_write_succeed;
-    std::function<void(std::error_code, InputConnection &)> m_on_write_failed;
-    std::function<void(std::error_code, InputConnection &)> m_on_read_failed;
-    std::function<void()> m_on_close;
+    on_read_t m_on_read;
+    on_write_success_t m_on_write_succeed;
+    on_write_failed_t m_on_write_failed;
+    on_read_failed_t m_on_read_failed;
+    on_close_t m_on_close;
     asio::io_service m_service;
     tcp::endpoint m_endpoint;
     tcp::acceptor m_acceptor;

@@ -19,26 +19,36 @@ namespace protocol {
 
 class OutputConnection{
     friend class client;
+    using on_write_success_t = std::function<void(OutputConnection &, const serialize::Request &)>;
+    using on_read_success_t = std::function<void(const protocol::serialize::Response &, OutputConnection &)>;
+    using on_write_failure_t = std::function<void(std::error_code, OutputConnection &, const serialize::Request &)>;
+    using on_read_failure_t = std::function<void(std::error_code, OutputConnection&)>;
+    using on_close_t = std::function<void(OutputConnection &)>;
 public:
     OutputConnection(asio::io_service &service);
     void close();
     void read();
     void write(const protocol::serialize::Request &request);
-    void on_write_success(const std::function<void(OutputConnection &)> &onWriteSuccess);
-    void on_write_failure(const std::function<void(std::error_code, OutputConnection &)> &onWriteFailure);
-    void on_read_success(const std::function<void(const protocol::serialize::Response &, OutputConnection &)> &onReadSuccess);
-    void on_read_failure(const std::function<void(std::error_code, OutputConnection&)> &onReadFailure);
-    void on_close(const std::function<void(OutputConnection &)> &onClose);
+    void on_write_success(const on_write_success_t &onWriteSuccess);
+    void on_write_failure(const on_write_failure_t &onWriteFailure);
+    void on_read_success(const on_read_success_t &onReadSuccess);
+    void on_read_failure(const on_read_failure_t &onReadFailure);
+    void on_close(const on_close_t &onClose);
 private:
-    std::function<void(OutputConnection &)> m_on_write_success;
-    std::function<void(std::error_code, OutputConnection &)> m_on_write_failure;
-    std::function<void(const protocol::serialize::Response &, OutputConnection &)> m_on_read_success;
-    std::function<void(std::error_code, OutputConnection &)> m_on_read_failure;
-    std::function<void(OutputConnection &)> m_on_close;
+    void read_body(const serialize::HeaderResponse &header);
+    on_write_success_t m_on_write_success;
+    on_read_success_t m_on_read_success;
+    on_write_failure_t m_on_write_failure;
+    on_read_failure_t m_on_read_failure;
+    on_close_t m_on_close;
 private:
     tcp::socket m_socket;
     std::string m_data_write;
     char *m_data;
+    char *m_data_body;
+    std::array<char, 25> m_data_header;
+    serialize::Request m_current_request;
+    serialize::HeaderResponse m_current_header_response;
 };
 
 class client {

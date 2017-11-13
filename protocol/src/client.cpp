@@ -10,23 +10,23 @@ namespace protocol {
 OutputConnection::OutputConnection(asio::io_service &io_service)
     : m_socket{ io_service } {}
 
-void OutputConnection::on_write_success(const std::function<void(OutputConnection &)> &onWriteSuccess) {
+void OutputConnection::on_write_success(const OutputConnection::on_write_success_t &onWriteSuccess) {
     m_on_write_success = onWriteSuccess;
 }
 
-void OutputConnection::on_write_failure(const std::function<void(std::error_code, OutputConnection &)> &onWriteFailure) {
+void OutputConnection::on_write_failure(const OutputConnection::on_write_failure_t &onWriteFailure) {
     m_on_write_failure = onWriteFailure;
 }
 
-void OutputConnection::on_read_success(const std::function<void(const protocol::serialize::Response &, OutputConnection&)> &onReadSuccess) {
+void OutputConnection::on_read_success(const OutputConnection::on_read_success_t &onReadSuccess) {
     m_on_read_success = onReadSuccess;
 }
 
-void OutputConnection::on_read_failure(const std::function<void(std::error_code, OutputConnection&)> &onReadFailure) {
+void OutputConnection::on_read_failure(const OutputConnection::on_read_failure_t &onReadFailure) {
     m_on_read_failure = onReadFailure;
 }
 
-void OutputConnection::on_close(const std::function<void(OutputConnection &)> &onClose) {
+void OutputConnection::on_close(const OutputConnection::on_close_t &onClose) {
     m_on_close = onClose;
 }
 
@@ -38,8 +38,8 @@ void OutputConnection::read() {
 
             std::cerr << "OutputConnection::read : Read success" << std::endl;
             std::cerr << "OutputConnection::read : " << m_data << std::endl;
-            //TODO : Insert on_read_success here
-            read();
+            serialize::HeaderResponse h{ m_data_header.data(), 25 };
+            read_body(h);
 
         } else {
 
@@ -48,22 +48,46 @@ void OutputConnection::read() {
 
         }
     };
-    asio::async_read(m_socket, asio::buffer(m_data, 25), read_socket);
+    asio::async_read(m_socket, asio::buffer(m_data_header.data(), 25), read_socket);
+}
+
+void OutputConnection::read_body(const serialize::HeaderResponse &header) {
+    m_current_header_response = header;
+    m_data_body = new char[header.bufferSize + 1];
+    auto read_socket = [&, this] (std::error_code ec, std::size_t length) {
+
+        std::cout << "OutputConnection::read_body " << length << "bytes" << std::endl;
+        if (!ec) {
+
+            serialize::Response resp{ m_current_header_response, serialize::Body{m_data_body, m_current_header_response.bufferSize} };
+            std::cerr << "OutputConnection::read_body : Read success" << std::endl;
+            if (m_on_read_success) m_on_read_success(resp, *this);
+
+        } else {
+
+            std::cerr << "OutputConnection::read_body error : " << ec.message() << std::endl;
+            if (m_on_read_failure) m_on_read_failure(ec, *this);
+
+        }
+
+    };
+    asio::async_read(m_socket, asio::buffer(m_data_body, header.bufferSize), read_socket);
 }
 
 void OutputConnection::write(const protocol::serialize::Request &request) {
+    m_current_request = request;
     auto write_socket = [&, this] (std::error_code ec, std::size_t length) {
 
         std::cerr << "Writing " << length << " datas" << std::endl;
         std::cerr << m_data << std::endl;
         if (!ec) {
 
-            if (m_on_write_success) m_on_write_success(*this);
+            if (m_on_write_success) m_on_write_success(*this, m_current_request);
 
         } else {
 
             std::cerr << "Error : " << ec.message() << std::endl;
-            if (m_on_write_failure) m_on_write_failure(ec, *this);
+            if (m_on_write_failure) m_on_write_failure(ec, *this, m_current_request);
 
         }
 

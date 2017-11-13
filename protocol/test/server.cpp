@@ -10,7 +10,8 @@ int main() {
 
     auto on_read = [] (const protocol::serialize::Request &request, protocol::InputConnection &out) {
         std::cerr << "Read succeed, " << request.size() << std::endl;
-        out.write();
+        protocol::serialize::Response r{};
+        out.write(r);
     };
 
     s.on_read_succeed(on_read);
