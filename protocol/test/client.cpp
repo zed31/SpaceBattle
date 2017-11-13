@@ -66,9 +66,17 @@ int main() {
                     std::cerr << "Body : " << it << std::endl;
                 }
                 out.close();
-                client.stop();
             };
             outputConnection.on_read_success(on_read_success);
+
+            /*
+             * Define it when you want to handle the close of the session, of course you should
+             * stop the client !
+            */
+            auto on_close = [&] () {
+                client.stop();
+            };
+            outputConnection.on_close(on_close);
 
             //only for testing the app !
             protocol::serialize::Request r{};
