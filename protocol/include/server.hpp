@@ -24,7 +24,7 @@ using on_read_t = std::function<void(const serialize::Request &, InputConnection
 using on_write_failed_t = std::function<void(std::error_code, InputConnection &)>;
 using on_read_failed_t = std::function<void(std::error_code, InputConnection &)>;
 using on_close_t = std::function<void()>;
-using on_accept_t = std::function<void()>;
+using on_accept_t = std::function<void(std::unique_ptr<InputConnection> &&)>;
 
 /*! \brief Class used to send and receive message from the clients */
 class InputConnection {
@@ -40,9 +40,35 @@ public:
     ~InputConnection();
 
     void write(const serialize::Response &response);
+
+    /*! \brief Bind the on_write_succeed() function to a specific user-defined function
+     * @param[in]   onWriteSucceed  function under the form of std::function<void(const serialize::Response &, InputConnection &)>;
+    */
+    void on_write_succeed(const on_write_success_t &onWriteSucceed);
+
+    /*! \brief Bind the on_write_failed() function to a specific user-defined function
+     * @param[in]   onWriteFaied    function under the form of std::function<void(std::error_code, InputConnection &)>;
+    */
+    void on_write_failed(const on_write_failed_t &onWriteFaied);
+
+    /*! \brief Bind the on_read_succeed() function to a specific user-defined function
+     * @param[in]   onReadSucceed   function under the form of std::function<void(const serialize::Request &, InputConnection &)>;
+    */
+    void on_read_succeed(const on_read_t &onReadSucceed);
+
+    /*! \brief Bind the on_read_failed() function to a specific user-defined function
+     * @param[in]   onReadFailed    function under the form of std::function<void(std::error_code, InputConnection &)>;
+    */
+    void on_read_failed(const on_read_failed_t &onReadFailed);
+
+    /*! \brief Bind the on_close() function to a specific user-defined function
+     * @param[in]   onClose function under the form of std::function<void()>;
+    */
+    void on_close(const on_close_t &onClose);
+
+    void read();
 private:
     void on_accept();
-    void read();
     void read_body(const serialize::HeaderRequest &request);
     void close();
 private:
@@ -73,38 +99,14 @@ public:
     */
     void run();
 
-    /*! \brief Bind the on_write_succeed() function to a specific user-defined function
-     * @param[in]   onWriteSucceed  function under the form of std::function<void(const serialize::Response &, InputConnection &)>;
-    */
-    void on_write_succeed(const on_write_success_t &onWriteSucceed);
-
-    /*! \brief Bind the on_write_failed() function to a specific user-defined function
-     * @param[in]   onWriteFaied    function under the form of std::function<void(std::error_code, InputConnection &)>;
-    */
-    void on_write_failed(const on_write_failed_t &onWriteFaied);
-
-    /*! \brief Bind the on_read_succeed() function to a specific user-defined function
-     * @param[in]   onReadSucceed   function under the form of std::function<void(const serialize::Request &, InputConnection &)>;
-    */
-    void on_read_succeed(const on_read_t &onReadSucceed);
-
-    /*! \brief Bind the on_read_failed() function to a specific user-defined function
-     * @param[in]   onReadFailed    function under the form of std::function<void(std::error_code, InputConnection &)>;
-    */
-    void on_read_failed(const on_read_failed_t &onReadFailed);
-
-    /*! \brief Bind the on_close() function to a specific user-defined function
-     * @param[in]   onClose function under the form of std::function<void()>;
-    */
-    void on_close(const on_close_t &onClose);
-
-    /*! \brief Bind the on_accept() function to a specific user-defined function
-     * @param[in]   onAccept    function under the form of std::function<void()>;
-    */
-    void on_accept(const on_accept_t &onAccept);
-
     /*! \brief stop the service */
     void stop();
+
+
+    /*! \brief Bind the on_accept() function to a specific user-defined function
+     * @param[in]   onAccept    function under the form of std::function<void(std::unique_ptr<InputConnection> &&)>;
+    */
+    void on_accept(const on_accept_t &onAccept);
 private:
     void accept();
 private:
@@ -114,11 +116,11 @@ private:
     on_read_failed_t m_on_read_failed;
     on_close_t m_on_close;
     on_accept_t m_on_accept;
+
     asio::io_service m_service;
     tcp::endpoint m_endpoint;
     tcp::acceptor m_acceptor;
     std::unique_ptr<InputConnection> m_waiting_connection;
-    std::vector<std::unique_ptr<InputConnection>> m_connections{};
 };
 
 } // namespace protocol

@@ -50,7 +50,6 @@ int main() {
             */
             auto on_read_failure = [&](std::error_code, protocol::OutputConnection &out) {
                 out.close();
-                client.stop();
             };
             outputConnection.on_read_failure(on_read_failure);
 

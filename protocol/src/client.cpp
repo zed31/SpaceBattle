@@ -30,11 +30,6 @@ void OutputConnection::on_close(const OutputConnection::on_close_t &onClose) {
     m_on_close = onClose;
 }
 
-OutputConnection::~OutputConnection() {
-    m_socket.shutdown(asio::ip::tcp::socket::shutdown_both);
-    m_socket.close();
-}
-
 void OutputConnection::read() {
     auto read_socket = [&, this] (std::error_code ec, std::size_t length) {
 

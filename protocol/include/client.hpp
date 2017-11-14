@@ -32,9 +32,6 @@ public:
     */
     OutputConnection(asio::io_service &service);
 
-    /*! \brief destroy the connection and shutdown the read and write operations */
-    ~OutputConnection();
-
     /*! \brief Close the socket
      * Close the stream, and force the shutdown of the read and write operation
     */
