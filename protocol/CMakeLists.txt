@@ -7,7 +7,7 @@ elseif (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 -DBOOST_ERROR_CODE_HEADER_ONLY -DASIO_STANDALONE -DBOOST_SYSTEM_NO_DEPRECATED -D_SCL_SECURE_NO_WARNINGS")
 endif ()
 
-set(EXTERNAL_LIBS external)
+set(EXTERNAL_LIBS ../external)
 set(PROTOCOL protocol)
 
 include_directories(
