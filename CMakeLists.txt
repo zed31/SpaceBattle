@@ -24,7 +24,7 @@ set(
         GOOGLETEST_SOURCES
         ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/src/gtest-all.cc
         ${PROJECT_SOURCE_DIR}/${GOOGLETEST_ROOT}/src/gtest_main.cc
-)
+        server/src/main.cpp)
 
 foreach(_source ${GOOGLETEST_SOURCES})
     set_source_files_properties(${_source} PROPERTIES GENERATED 1)
@@ -63,34 +63,34 @@ target_include_directories(space_proto INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/i
 
 
 #################################################
-#SERVER
+#SERVER SAMPLE
 #################################################
 
 add_executable(
-       server
+       server_sample
         protocol/test/stubs/server.cpp
 )
 
-target_include_directories(server INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/include)
+target_include_directories(server_sample INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/include)
 target_link_libraries(
-        server
+        server_sample
         space_proto
         Threads::Threads
 )
 
 #################################################
-#CLIENT STUB
+#CLIENT SAMPLE
 #################################################
 
 add_executable(
-        client
+        client_sample
         protocol/test/stubs/client.cpp
 )
 
-target_include_directories(client INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/include)
+target_include_directories(client_sample INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/include)
 
 target_link_libraries(
-        client
+        client_sample
         space_proto
         Threads::Threads
 )
@@ -113,6 +113,11 @@ target_link_libraries(
         googletest
         Threads::Threads
 )
+
+##################################################
+#SERVER
+##################################################
+add_subdirectory(server)
 
 if(MINGW)
     target_link_libraries(protocole_test user32 wsock32 ws2_32)

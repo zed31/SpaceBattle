@@ -27,6 +27,7 @@ int main() {
              * the request is the one you wrote !
             */
             auto on_write_success = [&](protocol::OutputConnection &out, const protocol::serialize::Request &) {
+                std::cout << "on_write_success: Writing success, processing read now" << std::endl;
                 out.read();
             };
             outputConnection.on_write_success(on_write_success);
@@ -37,7 +38,7 @@ int main() {
              * OutputConnection
             */
             auto on_write_failure = [&](std::error_code ec, protocol::OutputConnection &out, const protocol::serialize::Request &) {
-                std::cerr << "Error : " << ec << std::endl;
+                std::cerr << "on_write_failure: " << ec << std::endl;
                 out.close();
                 client.stop();
             };
@@ -48,7 +49,8 @@ int main() {
              * network). You should probably close the socket (at least) with the close function from the
              * OutputConnection
             */
-            auto on_read_failure = [&](std::error_code, protocol::OutputConnection &out) {
+            auto on_read_failure = [&](std::error_code ec, protocol::OutputConnection &out) {
+                std::cerr << "on_read_failure: " << ec.message() << std::endl;
                 out.close();
             };
             outputConnection.on_read_failure(on_read_failure);
@@ -64,7 +66,7 @@ int main() {
                 for (auto it : response.body.content()) {
                     std::cerr << "Body : " << it << std::endl;
                 }
-                out.close();
+                //out.close();
             };
             outputConnection.on_read_success(on_read_success);
 
@@ -73,7 +75,7 @@ int main() {
              * stop the client !
             */
             auto on_close = [&] (protocol::OutputConnection &) {
-                std::cerr << "Stoping the server" << std::endl;
+                std::cerr << "on_close: Stoping the server" << std::endl;
                 client.stop();
             };
             outputConnection.on_close(on_close);
@@ -84,7 +86,7 @@ int main() {
         };
 
         auto on_connection_fails = [&]() {
-            std::cerr << "Stopping the connection" << std::endl;
+            std::cerr << "on_connection_fails: Stopping the connection" << std::endl;
             client.stop();
         };
 

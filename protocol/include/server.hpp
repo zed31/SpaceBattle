@@ -5,7 +5,6 @@
 #ifndef SPACE_BATTLE_CONNECTIONLISTENER_HPP
 #define SPACE_BATTLE_CONNECTIONLISTENER_HPP
 
-#include <iostream>
 #include <memory>
 #include <array>
 #include <functional>
@@ -36,8 +35,6 @@ public:
     */
     InputConnection(server &server, asio::io_service &service)
         : m_server{ server }, m_socket{ service } {};
-    /*! \brief shutdown the connection and destroy the associated connection */
-    ~InputConnection();
 
     void write(const serialize::Response &response);
 
@@ -67,10 +64,12 @@ public:
     void on_close(const on_close_t &onClose);
 
     void read();
+
+    /*! \brief close the socket call the on_close() function if not null */
+    void close();
 private:
     void on_accept();
     void read_body(const serialize::HeaderRequest &request);
-    void close();
 private:
     on_read_t m_on_read;
     on_write_success_t m_on_write_succeed;

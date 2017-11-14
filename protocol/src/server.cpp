@@ -5,11 +5,6 @@
 #include "server.hpp"
 
 namespace protocol {
-InputConnection::~InputConnection() {
-    m_socket.shutdown(tcp::socket::shutdown_both);
-    m_socket.close();
-}
-
 void InputConnection::on_read_failed(const on_read_failed_t &onReadFailed) {
     m_on_read_failed = onReadFailed;
 }
@@ -32,8 +27,7 @@ void InputConnection::on_close(const on_close_t &onClose) {
 
 void InputConnection::read() {
 
-    auto read_socket = [&, this](std::error_code ec, std::size_t length) {
-        std::cout << "Reading something of " << length << std::endl;
+    auto read_socket = [&, this](std::error_code ec, std::size_t) {
         if (!ec) {
 
             read_body(serialize::HeaderRequest{ m_data.data(), m_data.size() });
@@ -41,7 +35,6 @@ void InputConnection::read() {
         } else {
 
             if (m_on_read_failed) m_on_read_failed(ec, *this);
-            std::cerr << "Error " << ec.message() << std::endl;
 
         }
     };
@@ -57,12 +50,11 @@ void InputConnection::read_body(const serialize::HeaderRequest &requestHeader) {
 
         if (!ec) {
 
-            std::cerr << "InputConnection::read_body : Success" << std::endl;
             if (m_on_read) m_on_read(serialize::Request{m_current_header_request, serialize::Body{m_body, m_current_header_request.bufferSize}}, *this);
+            read();
 
         } else {
 
-            std::cerr << "InputConnection::read_body : Failed" << std::endl;
             if (m_on_read_failed) m_on_read_failed(ec, *this);
 
         }
@@ -78,7 +70,6 @@ void InputConnection::close() {
 }
 
 void InputConnection::on_accept() {
-    std::cout << "Start reading datas" << std::endl;
     read();
 }
 
@@ -86,17 +77,14 @@ void InputConnection::write(const serialize::Response &response) {
     m_buff_response = new char[response.size()];
     response.data(m_buff_response);
     m_current_response = response;
-    auto write_socket = [&, this](std::error_code ec, std::size_t length) {
-        std::cout << "writing something of " << length << std::endl;
+    auto write_socket = [&, this](std::error_code ec, std::size_t) {
 
         if (!ec) {
 
-            std::cerr << "Write complete !" << std::endl;
             if (m_on_write_succeed) m_on_write_succeed(m_current_response, *this);
 
         } else {
 
-            std::cerr << "Error " << ec.message() << std::endl;
             if (m_on_write_failed) m_on_write_failed(ec, *this);
 
         }
@@ -111,9 +99,6 @@ void server::accept() {
     m_waiting_connection = std::make_unique<InputConnection>(*this, m_service);
     auto accept_complete = [&, this] (std::error_code ec) {
         if (!ec) {
-            std::cout << "New connection occur ..." << std::endl;
-            //m_waiting_connection->on_accept();
-            //m_connections.push_back();
             if (m_on_accept) m_on_accept(std::move(m_waiting_connection));
             accept();
         }

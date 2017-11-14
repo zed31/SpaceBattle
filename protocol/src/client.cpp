@@ -2,7 +2,6 @@
 // Created by 49844 on 12/11/2017.
 //
 
-#include <iostream>
 #include "client.hpp"
 
 namespace protocol {
@@ -31,19 +30,15 @@ void OutputConnection::on_close(const OutputConnection::on_close_t &onClose) {
 }
 
 void OutputConnection::read() {
-    auto read_socket = [&, this] (std::error_code ec, std::size_t length) {
+    auto read_socket = [&, this] (std::error_code ec, std::size_t) {
 
-        std::cout << "OutputConnection::read " << length << "bytes" << std::endl;
         if (!ec) {
 
-            std::cerr << "OutputConnection::read : Read success" << std::endl;
-            std::cerr << "OutputConnection::read : " << m_data << std::endl;
             serialize::HeaderResponse h{ m_data_header.data(), 25 };
             read_body(h);
 
         } else {
 
-            std::cerr << "OutputConnection::read error : " << ec.message() << std::endl;
             if (m_on_read_failure) m_on_read_failure(ec, *this);
 
         }
@@ -54,18 +49,15 @@ void OutputConnection::read() {
 void OutputConnection::read_body(const serialize::HeaderResponse &header) {
     m_current_header_response = header;
     m_data_body = new char[header.bufferSize + 1];
-    auto read_socket = [&, this] (std::error_code ec, std::size_t length) {
+    auto read_socket = [&, this] (std::error_code ec, std::size_t) {
 
-        std::cout << "OutputConnection::read_body " << length << "bytes" << std::endl;
         if (!ec) {
 
             serialize::Response resp{ m_current_header_response, serialize::Body{m_data_body, m_current_header_response.bufferSize} };
-            std::cerr << "OutputConnection::read_body : Read success" << std::endl;
             if (m_on_read_success) m_on_read_success(resp, *this);
 
         } else {
 
-            std::cerr << "OutputConnection::read_body error : " << ec.message() << std::endl;
             if (m_on_read_failure) m_on_read_failure(ec, *this);
 
         }
@@ -76,17 +68,14 @@ void OutputConnection::read_body(const serialize::HeaderResponse &header) {
 
 void OutputConnection::write(const protocol::serialize::Request &request) {
     m_current_request = request;
-    auto write_socket = [&, this] (std::error_code ec, std::size_t length) {
+    auto write_socket = [&, this] (std::error_code ec, std::size_t) {
 
-        std::cerr << "Writing " << length << " datas" << std::endl;
-        std::cerr << m_data << std::endl;
         if (!ec) {
 
             if (m_on_write_success) m_on_write_success(*this, m_current_request);
 
         } else {
 
-            std::cerr << "Error : " << ec.message() << std::endl;
             if (m_on_write_failure) m_on_write_failure(ec, *this, m_current_request);
 
         }
@@ -124,10 +113,8 @@ void client::on_connection_failed(const std::function<void()> &onConnectionFaile
 void client::connect() {
     auto connect_socket = [&, this] (std::error_code ec, tcp::resolver::iterator) {
         if (!ec) {
-            std::cout << "client::connect Connection complete" << std::endl;
             if (m_on_connect) m_on_connect(m_connection);
         } else {
-            std::cerr << "client::connect Error on connection : " << ec.message() << std::endl;
             if (m_on_connect_failed) m_on_connect_failed();
         }
     };
