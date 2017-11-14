@@ -1,0 +1,91 @@
+\hypertarget{classprotocol_1_1serialize_1_1_body}{}\section{protocol\+:\+:serialize\+:\+:Body Class Reference}
+\label{classprotocol_1_1serialize_1_1_body}\index{protocol\+::serialize\+::\+Body@{protocol\+::serialize\+::\+Body}}
+
+
+This class store the body and provide a way to transform it into char $\ast$.  
+
+
+
+
+{\ttfamily \#include $<$body.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classprotocol_1_1serialize_1_1_body_a8bb413cb98248b3f0fd1a38966de0262}\label{classprotocol_1_1serialize_1_1_body_a8bb413cb98248b3f0fd1a38966de0262}} 
+\hyperlink{classprotocol_1_1serialize_1_1_body_a8bb413cb98248b3f0fd1a38966de0262}{Body} ()=default
+\begin{DoxyCompactList}\small\item\em Default construction of the \hyperlink{classprotocol_1_1serialize_1_1_body}{Body} class. \end{DoxyCompactList}\item 
+\hyperlink{classprotocol_1_1serialize_1_1_body_ad7d30dfc067cb9c2cbc5c89821cd6bbe}{Body} (std\+::initializer\+\_\+list$<$ std\+::string $>$ in) noexcept
+\begin{DoxyCompactList}\small\item\em Construct the body with a set of data. \end{DoxyCompactList}\item 
+\hyperlink{classprotocol_1_1serialize_1_1_body_ae345ba686290c375ded50efc7b4be7e6}{Body} (const char $\ast$buffer, std\+::size\+\_\+t buffer\+\_\+length) noexcept
+\begin{DoxyCompactList}\small\item\em Construct the body with an array of bytes. \end{DoxyCompactList}\item 
+void \hyperlink{classprotocol_1_1serialize_1_1_body_ab7d3edf03b647b9e5323a697e9a8f7db}{data} (char $\ast$dest) const noexcept
+\begin{DoxyCompactList}\small\item\em set all the data contained in the body separate with a \textbackslash{}0 \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classprotocol_1_1serialize_1_1_body_a57d9877ef6ffa92220f1ca7f3e5b4389}\label{classprotocol_1_1serialize_1_1_body_a57d9877ef6ffa92220f1ca7f3e5b4389}} 
+std\+::size\+\_\+t \hyperlink{classprotocol_1_1serialize_1_1_body_a57d9877ef6ffa92220f1ca7f3e5b4389}{size} () const noexcept
+\begin{DoxyCompactList}\small\item\em return the size of the body \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classprotocol_1_1serialize_1_1_body_a88da253a4a941b3e8b9597d43462383b}\label{classprotocol_1_1serialize_1_1_body_a88da253a4a941b3e8b9597d43462383b}} 
+std\+::vector$<$ std\+::string $>$ const  \& \hyperlink{classprotocol_1_1serialize_1_1_body_a88da253a4a941b3e8b9597d43462383b}{content} () const noexcept
+\begin{DoxyCompactList}\small\item\em return the content of the body \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class store the body and provide a way to transform it into char $\ast$. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classprotocol_1_1serialize_1_1_body_ad7d30dfc067cb9c2cbc5c89821cd6bbe}\label{classprotocol_1_1serialize_1_1_body_ad7d30dfc067cb9c2cbc5c89821cd6bbe}} 
+\index{protocol\+::serialize\+::\+Body@{protocol\+::serialize\+::\+Body}!Body@{Body}}
+\index{Body@{Body}!protocol\+::serialize\+::\+Body@{protocol\+::serialize\+::\+Body}}
+\subsubsection{\texorpdfstring{Body()}{Body()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily protocol\+::serialize\+::\+Body\+::\+Body (\begin{DoxyParamCaption}\item[{std\+::initializer\+\_\+list$<$ std\+::string $>$}]{in }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+Construct the body with a set of data. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em in} & the initializer list used to generate the body \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classprotocol_1_1serialize_1_1_body_ae345ba686290c375ded50efc7b4be7e6}\label{classprotocol_1_1serialize_1_1_body_ae345ba686290c375ded50efc7b4be7e6}} 
+\index{protocol\+::serialize\+::\+Body@{protocol\+::serialize\+::\+Body}!Body@{Body}}
+\index{Body@{Body}!protocol\+::serialize\+::\+Body@{protocol\+::serialize\+::\+Body}}
+\subsubsection{\texorpdfstring{Body()}{Body()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily protocol\+::serialize\+::\+Body\+::\+Body (\begin{DoxyParamCaption}\item[{const char $\ast$}]{buffer,  }\item[{std\+::size\+\_\+t}]{buffer\+\_\+length }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+Construct the body with an array of bytes. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em buffer} & The buffer used to construct the body \\
+\hline
+\mbox{\tt in}  & {\em buffer\+\_\+length} & The length of the buffer \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classprotocol_1_1serialize_1_1_body_ab7d3edf03b647b9e5323a697e9a8f7db}\label{classprotocol_1_1serialize_1_1_body_ab7d3edf03b647b9e5323a697e9a8f7db}} 
+\index{protocol\+::serialize\+::\+Body@{protocol\+::serialize\+::\+Body}!data@{data}}
+\index{data@{data}!protocol\+::serialize\+::\+Body@{protocol\+::serialize\+::\+Body}}
+\subsubsection{\texorpdfstring{data()}{data()}}
+{\footnotesize\ttfamily void protocol\+::serialize\+::\+Body\+::data (\begin{DoxyParamCaption}\item[{char $\ast$}]{dest }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+
+set all the data contained in the body separate with a \textbackslash{}0 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt out}  & {\em dest} & the destination where the body has to be put in. It must allocate enough memory the data function is not responsible of the size of dest. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/serialization/body.\+hpp\item 
+src/serialization/body.\+cpp\end{DoxyCompactItemize}

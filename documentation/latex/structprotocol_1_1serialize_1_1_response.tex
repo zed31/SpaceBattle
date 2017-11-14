@@ -1,0 +1,121 @@
+\hypertarget{structprotocol_1_1serialize_1_1_response}{}\section{protocol\+:\+:serialize\+:\+:Response Struct Reference}
+\label{structprotocol_1_1serialize_1_1_response}\index{protocol\+::serialize\+::\+Response@{protocol\+::serialize\+::\+Response}}
+
+
+This structure contains the header and the body of the response.  
+
+
+
+
+{\ttfamily \#include $<$response.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structprotocol_1_1serialize_1_1_response_adafc846df88780a7c0ca07dfcd17458e}\label{structprotocol_1_1serialize_1_1_response_adafc846df88780a7c0ca07dfcd17458e}} 
+\hyperlink{structprotocol_1_1serialize_1_1_response_adafc846df88780a7c0ca07dfcd17458e}{Response} (char magic=Header\+Utility\+::default\+\_\+magic\+\_\+, short revision=Header\+Utility\+::default\+\_\+rev\+\_\+, Status\+Code status\+Code=Status\+Code\+::\+OK, unsigned buffer\+Size=Header\+Utility\+::default\+\_\+buffer\+\_\+size\+\_\+) noexcept
+\begin{DoxyCompactList}\small\item\em Construct the request with the default value of the header and the body. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structprotocol_1_1serialize_1_1_response_a882ead0023ca6605796742ed04c970cf}\label{structprotocol_1_1serialize_1_1_response_a882ead0023ca6605796742ed04c970cf}} 
+{\bfseries Response} (const \hyperlink{structprotocol_1_1serialize_1_1_header_response}{Header\+Response} \&h, const \hyperlink{classprotocol_1_1serialize_1_1_body}{Body} \&b)
+\item 
+\hyperlink{structprotocol_1_1serialize_1_1_response_a3775c0f74e9dafd7a554fa9602b58e76}{Response} (char magic, short revision, Status\+Code status\+Code, unsigned buffer\+Size, std\+::initializer\+\_\+list$<$ std\+::string $>$ \hyperlink{structprotocol_1_1serialize_1_1_response_a6706ef7e0a22f2ba78e1b6ff12955568}{body})
+\begin{DoxyCompactList}\small\item\em Construct the request with the header and the body. \end{DoxyCompactList}\item 
+\hyperlink{structprotocol_1_1serialize_1_1_response_a73ba4942762283fdbd200fc5fa6a8e00}{Response} (const char $\ast$buffer, std\+::size\+\_\+t buffer\+\_\+length)
+\begin{DoxyCompactList}\small\item\em Construct a request structure with an array of bytes. \end{DoxyCompactList}\item 
+void \hyperlink{structprotocol_1_1serialize_1_1_response_a7f7cf53d43bb06cc07b3230c1f530c8c}{data} (char $\ast$dest) const
+\begin{DoxyCompactList}\small\item\em Generate a sequence of bytes containing the header and the body of a request The \hyperlink{structprotocol_1_1serialize_1_1_request}{Request} structure is not responsible of the allocation of dest parameter. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structprotocol_1_1serialize_1_1_response_ac86f4b18ebeacf1497a14b023c301f62}\label{structprotocol_1_1serialize_1_1_response_ac86f4b18ebeacf1497a14b023c301f62}} 
+std\+::size\+\_\+t \hyperlink{structprotocol_1_1serialize_1_1_response_ac86f4b18ebeacf1497a14b023c301f62}{size} () const noexcept
+\begin{DoxyCompactList}\small\item\em return the size of the request byte array \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{structprotocol_1_1serialize_1_1_header_response}{Header\+Response} \hyperlink{structprotocol_1_1serialize_1_1_response_ad2391bc2916947b5ac734ddaa6570442}{header}
+\item 
+\hyperlink{classprotocol_1_1serialize_1_1_body}{Body} \hyperlink{structprotocol_1_1serialize_1_1_response_a6706ef7e0a22f2ba78e1b6ff12955568}{body}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This structure contains the header and the body of the response. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structprotocol_1_1serialize_1_1_response_a3775c0f74e9dafd7a554fa9602b58e76}\label{structprotocol_1_1serialize_1_1_response_a3775c0f74e9dafd7a554fa9602b58e76}} 
+\index{protocol\+::serialize\+::\+Response@{protocol\+::serialize\+::\+Response}!Response@{Response}}
+\index{Response@{Response}!protocol\+::serialize\+::\+Response@{protocol\+::serialize\+::\+Response}}
+\subsubsection{\texorpdfstring{Response()}{Response()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily protocol\+::serialize\+::\+Response\+::\+Response (\begin{DoxyParamCaption}\item[{char}]{magic,  }\item[{short}]{revision,  }\item[{Status\+Code}]{status\+Code,  }\item[{unsigned}]{buffer\+Size,  }\item[{std\+::initializer\+\_\+list$<$ std\+::string $>$}]{body }\end{DoxyParamCaption})}
+
+
+
+Construct the request with the header and the body. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em magic} & The magic number of the request \\
+\hline
+\mbox{\tt in}  & {\em revision} & The revision of the request \\
+\hline
+\mbox{\tt in}  & {\em status\+Code} & The op\+Code of the request \\
+\hline
+\mbox{\tt in}  & {\em buffer\+Size} & The size of the body \\
+\hline
+\mbox{\tt in}  & {\em body} & The content of the body \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structprotocol_1_1serialize_1_1_response_a73ba4942762283fdbd200fc5fa6a8e00}\label{structprotocol_1_1serialize_1_1_response_a73ba4942762283fdbd200fc5fa6a8e00}} 
+\index{protocol\+::serialize\+::\+Response@{protocol\+::serialize\+::\+Response}!Response@{Response}}
+\index{Response@{Response}!protocol\+::serialize\+::\+Response@{protocol\+::serialize\+::\+Response}}
+\subsubsection{\texorpdfstring{Response()}{Response()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily protocol\+::serialize\+::\+Response\+::\+Response (\begin{DoxyParamCaption}\item[{const char $\ast$}]{buffer,  }\item[{std\+::size\+\_\+t}]{buffer\+\_\+length }\end{DoxyParamCaption})}
+
+
+
+Construct a request structure with an array of bytes. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em buffer} & The array of bytes containing the request \\
+\hline
+\mbox{\tt in}  & {\em buffer\+\_\+length} & The length of the buffer \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structprotocol_1_1serialize_1_1_response_a7f7cf53d43bb06cc07b3230c1f530c8c}\label{structprotocol_1_1serialize_1_1_response_a7f7cf53d43bb06cc07b3230c1f530c8c}} 
+\index{protocol\+::serialize\+::\+Response@{protocol\+::serialize\+::\+Response}!data@{data}}
+\index{data@{data}!protocol\+::serialize\+::\+Response@{protocol\+::serialize\+::\+Response}}
+\subsubsection{\texorpdfstring{data()}{data()}}
+{\footnotesize\ttfamily void protocol\+::serialize\+::\+Response\+::data (\begin{DoxyParamCaption}\item[{char $\ast$}]{dest }\end{DoxyParamCaption}) const}
+
+
+
+Generate a sequence of bytes containing the header and the body of a request The \hyperlink{structprotocol_1_1serialize_1_1_request}{Request} structure is not responsible of the allocation of dest parameter. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt out}  & {\em dest} & the destination byte array. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structprotocol_1_1serialize_1_1_response_a6706ef7e0a22f2ba78e1b6ff12955568}\label{structprotocol_1_1serialize_1_1_response_a6706ef7e0a22f2ba78e1b6ff12955568}} 
+\index{protocol\+::serialize\+::\+Response@{protocol\+::serialize\+::\+Response}!body@{body}}
+\index{body@{body}!protocol\+::serialize\+::\+Response@{protocol\+::serialize\+::\+Response}}
+\subsubsection{\texorpdfstring{body}{body}}
+{\footnotesize\ttfamily \hyperlink{classprotocol_1_1serialize_1_1_body}{Body} protocol\+::serialize\+::\+Response\+::body}
+
+\hyperlink{classprotocol_1_1serialize_1_1_body}{Body} of the response \mbox{\Hypertarget{structprotocol_1_1serialize_1_1_response_ad2391bc2916947b5ac734ddaa6570442}\label{structprotocol_1_1serialize_1_1_response_ad2391bc2916947b5ac734ddaa6570442}} 
+\index{protocol\+::serialize\+::\+Response@{protocol\+::serialize\+::\+Response}!header@{header}}
+\index{header@{header}!protocol\+::serialize\+::\+Response@{protocol\+::serialize\+::\+Response}}
+\subsubsection{\texorpdfstring{header}{header}}
+{\footnotesize\ttfamily \hyperlink{structprotocol_1_1serialize_1_1_header_response}{Header\+Response} protocol\+::serialize\+::\+Response\+::header}
+
+Header of the response 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/serialization/response.\+hpp\item 
+src/serialization/response.\+cpp\end{DoxyCompactItemize}

@@ -92,6 +92,14 @@ struct Request {
 
 } // namespace serialize
 
+/*! \brief generate the request structure
+ * make_request ensure that the request will be built with the latest version of the request information
+ * (magic and revision)
+ * @param[in]   opCode  The op code used to generate the request
+ * @param[in]   body    The body used to generate the request
+*/
+serialize::Request make_request(const serialize::OpCode &opCode, std::initializer_list<std::string> body);
+
 } // namespace protocol
 
 #endif //SPACE_BATTLE_REQUEST_HPP

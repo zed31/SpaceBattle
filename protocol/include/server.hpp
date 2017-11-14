@@ -26,12 +26,19 @@ using on_read_failed_t = std::function<void(std::error_code, InputConnection &)>
 using on_close_t = std::function<void()>;
 using on_accept_t = std::function<void()>;
 
+/*! \brief Class used to send and receive message from the clients */
 class InputConnection {
     friend class server;
 public:
+    /*! \brief Construct the socket thanks to the service
+     * @param[in]   server  The server used to accept clients
+     * @param[in]   service The service used to create the socket
+    */
     InputConnection(server &server, asio::io_service &service)
         : m_server{ server }, m_socket{ service } {};
+    /*! \brief shutdown the connection and destroy the associated connection */
     ~InputConnection();
+
     void write(const serialize::Response &response);
 private:
     void on_accept();
@@ -55,16 +62,48 @@ private:
 
 class server {
 public:
+    /*! \brief Construct the server but not run it !
+     * @param[in]   port    Port to bind it
+    */
     server(unsigned short port)
         : m_endpoint{ tcp::v4(), port }, m_acceptor{ m_service, m_endpoint } {};
 
+    /*! \brief run the service and start accept connection
+     * It creates a blocking-accept until the service stop
+    */
     void run();
+
+    /*! \brief Bind the on_write_succeed() function to a specific user-defined function
+     * @param[in]   onWriteSucceed  function under the form of std::function<void(const serialize::Response &, InputConnection &)>;
+    */
     void on_write_succeed(const on_write_success_t &onWriteSucceed);
+
+    /*! \brief Bind the on_write_failed() function to a specific user-defined function
+     * @param[in]   onWriteFaied    function under the form of std::function<void(std::error_code, InputConnection &)>;
+    */
     void on_write_failed(const on_write_failed_t &onWriteFaied);
+
+    /*! \brief Bind the on_read_succeed() function to a specific user-defined function
+     * @param[in]   onReadSucceed   function under the form of std::function<void(const serialize::Request &, InputConnection &)>;
+    */
     void on_read_succeed(const on_read_t &onReadSucceed);
+
+    /*! \brief Bind the on_read_failed() function to a specific user-defined function
+     * @param[in]   onReadFailed    function under the form of std::function<void(std::error_code, InputConnection &)>;
+    */
     void on_read_failed(const on_read_failed_t &onReadFailed);
+
+    /*! \brief Bind the on_close() function to a specific user-defined function
+     * @param[in]   onClose function under the form of std::function<void()>;
+    */
     void on_close(const on_close_t &onClose);
+
+    /*! \brief Bind the on_accept() function to a specific user-defined function
+     * @param[in]   onAccept    function under the form of std::function<void()>;
+    */
     void on_accept(const on_accept_t &onAccept);
+
+    /*! \brief stop the service */
     void stop();
 private:
     void accept();

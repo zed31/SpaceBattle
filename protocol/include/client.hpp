@@ -17,6 +17,7 @@ using asio::ip::tcp;
 
 namespace protocol {
 
+/*! \brief Used to handle the IO operation on the network */
 class OutputConnection{
     friend class client;
     using on_write_success_t = std::function<void(OutputConnection &, const serialize::Request &)>;
@@ -30,6 +31,9 @@ public:
      * @param[in]   service The service used to construct the socket
     */
     OutputConnection(asio::io_service &service);
+
+    /*! \brief destroy the connection and shutdown the read and write operations */
+    ~OutputConnection();
 
     /*! \brief Close the socket
      * Close the stream, and force the shutdown of the read and write operation
@@ -82,7 +86,7 @@ private:
     on_close_t m_on_close;
 private:
     tcp::socket m_socket;
-    std::string m_data_write;
+    //std::string m_data_write;
     char *m_data;
     char *m_data_body;
     std::array<char, 25> m_data_header;
@@ -90,6 +94,7 @@ private:
     serialize::HeaderResponse m_current_header_response;
 };
 
+/*! \brief Used to make the connection to the server */
 class client {
 public:
     /*! \brief Create a client

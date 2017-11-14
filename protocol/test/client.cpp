@@ -80,8 +80,8 @@ int main() {
             outputConnection.on_close(on_close);
 
             //only for testing the app !
-            protocol::serialize::Request r{};
-            outputConnection.write(r);
+            auto request = protocol::make_request(protocol::serialize::OpCode::LEAVE, {"Je", "veux", "leave", "stp", "merci", "lol"});
+            outputConnection.write(request);
         };
 
         auto on_connection_fails = [&]() {

@@ -116,4 +116,10 @@ std::size_t Request::size() const noexcept {
 
 } // namespace protocol
 
+serialize::Request make_request(const serialize::OpCode &opCode, std::initializer_list<std::string> body) {
+    serialize::Body b{body};
+    serialize::Request req{ serialize::HeaderUtility::default_magic_, serialize::HeaderUtility::default_rev_, opCode, b.size(), body };
+    return req;
+}
+
 } // namespace serialization

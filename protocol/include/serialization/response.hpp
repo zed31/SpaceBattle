@@ -63,6 +63,10 @@ struct Response {
              short revision = HeaderUtility::default_rev_,
              StatusCode statusCode = StatusCode::OK, unsigned bufferSize = HeaderUtility::default_buffer_size_) noexcept;
 
+    /*! \brief Construct the response thanks to the header and the body
+     * @param[in]   h   Header of the response
+     * @param[in]   b   Body of the response
+    */
     Response(const HeaderResponse &h, const Body &b) : header{ h }, body{ b } {};
 
     /*! \brief Construct the request with the header and the body
@@ -91,6 +95,13 @@ struct Response {
 };
 
 } // namespace serialize
+
+/*! \brief Generate Response structure
+ * make_response generate the latest-version of the response (e.g : With the last revision, magic)
+ * @param[in]   code    The status code of the response
+ * @param[in]   body    The body of the response
+*/
+serialize::Response make_response(const serialize::StatusCode &code, std::initializer_list<std::string> body);
 
 } // namespace protocol
 

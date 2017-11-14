@@ -16,8 +16,6 @@ namespace protocol {
             std::cout << "Reading something of " << length << std::endl;
             if (!ec) {
 
-                std::cout << m_data.data() << std::endl;
-                std::cerr << "Sending back the datas" << std::endl;
                 read_body(serialize::HeaderRequest{ m_data.data(), m_data.size() });
 
             } else {
@@ -40,7 +38,7 @@ namespace protocol {
             if (!ec) {
 
                 std::cerr << "InputConnection::read_body : Success" << std::endl;
-                if (m_on_read) m_on_read(serialize::Request{requestHeader, serialize::Body{m_body, m_current_header_request.bufferSize}}, *this);
+                if (m_on_read) m_on_read(serialize::Request{m_current_header_request, serialize::Body{m_body, m_current_header_request.bufferSize}}, *this);
 
             } else {
 

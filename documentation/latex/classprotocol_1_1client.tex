@@ -1,0 +1,79 @@
+\hypertarget{classprotocol_1_1client}{}\section{protocol\+:\+:client Class Reference}
+\label{classprotocol_1_1client}\index{protocol\+::client@{protocol\+::client}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classprotocol_1_1client_a99df180b6792cb587ccace4d9d454842}{client} (const std\+::string \&host, const std\+::string \&port)
+\begin{DoxyCompactList}\small\item\em Create a client. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classprotocol_1_1client_af482c1be4d9560024803bec8dc857804}\label{classprotocol_1_1client_af482c1be4d9560024803bec8dc857804}} 
+void \hyperlink{classprotocol_1_1client_af482c1be4d9560024803bec8dc857804}{connect} ()
+\begin{DoxyCompactList}\small\item\em Connect a client Call the \hyperlink{classprotocol_1_1client_a0178fdb73323150789236de9d97e4d07}{on\+\_\+connect()} user-\/definec function when the connection is done, and on\+\_\+connect\+\_\+failure() when the connection fails. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classprotocol_1_1client_a0e296243ddccfa00f13e578510ab9f7e}\label{classprotocol_1_1client_a0e296243ddccfa00f13e578510ab9f7e}} 
+void \hyperlink{classprotocol_1_1client_a0e296243ddccfa00f13e578510ab9f7e}{run} ()
+\begin{DoxyCompactList}\small\item\em run the service and connect the client Run the service to handle events on stream and then connect the client \end{DoxyCompactList}\item 
+void \hyperlink{classprotocol_1_1client_a0178fdb73323150789236de9d97e4d07}{on\+\_\+connect} (const std\+::function$<$ void(\hyperlink{classprotocol_1_1_output_connection}{Output\+Connection} \&)$>$ \&on\+Connect)
+\begin{DoxyCompactList}\small\item\em set-\/up the \hyperlink{classprotocol_1_1client_a0178fdb73323150789236de9d97e4d07}{on\+\_\+connect()} user-\/defined function \end{DoxyCompactList}\item 
+void \hyperlink{classprotocol_1_1client_ad1482f806b94bada8cdda1057b06c0d1}{on\+\_\+connection\+\_\+failed} (const std\+::function$<$ void()$>$ \&on\+Connection\+Failed)
+\begin{DoxyCompactList}\small\item\em set-\/up the on\+\_\+connect\+\_\+failed() user-\/defined function \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classprotocol_1_1client_af48aa178ac06073e0370777a3ccee960}\label{classprotocol_1_1client_af48aa178ac06073e0370777a3ccee960}} 
+void \hyperlink{classprotocol_1_1client_af48aa178ac06073e0370777a3ccee960}{stop} ()
+\begin{DoxyCompactList}\small\item\em stop the service \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classprotocol_1_1client_a99df180b6792cb587ccace4d9d454842}\label{classprotocol_1_1client_a99df180b6792cb587ccace4d9d454842}} 
+\index{protocol\+::client@{protocol\+::client}!client@{client}}
+\index{client@{client}!protocol\+::client@{protocol\+::client}}
+\subsubsection{\texorpdfstring{client()}{client()}}
+{\footnotesize\ttfamily protocol\+::client\+::client (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{host,  }\item[{const std\+::string \&}]{port }\end{DoxyParamCaption})}
+
+
+
+Create a client. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em host} & The host where the client will connect when the \hyperlink{classprotocol_1_1client_af482c1be4d9560024803bec8dc857804}{connect()} would be called \\
+\hline
+\mbox{\tt in}  & {\em port} & The port where the client will connect when the \hyperlink{classprotocol_1_1client_af482c1be4d9560024803bec8dc857804}{connect()} would be called \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classprotocol_1_1client_a0178fdb73323150789236de9d97e4d07}\label{classprotocol_1_1client_a0178fdb73323150789236de9d97e4d07}} 
+\index{protocol\+::client@{protocol\+::client}!on\+\_\+connect@{on\+\_\+connect}}
+\index{on\+\_\+connect@{on\+\_\+connect}!protocol\+::client@{protocol\+::client}}
+\subsubsection{\texorpdfstring{on\+\_\+connect()}{on\_connect()}}
+{\footnotesize\ttfamily void protocol\+::client\+::on\+\_\+connect (\begin{DoxyParamCaption}\item[{const std\+::function$<$ void(\hyperlink{classprotocol_1_1_output_connection}{Output\+Connection} \&)$>$ \&}]{on\+Connect }\end{DoxyParamCaption})}
+
+
+
+set-\/up the \hyperlink{classprotocol_1_1client_a0178fdb73323150789236de9d97e4d07}{on\+\_\+connect()} user-\/defined function 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em on\+Connect} & The function used to be called when a client is connected, it has the form \+: std\+::function$<$void(\+Output\+Connection\&)$>$ \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classprotocol_1_1client_ad1482f806b94bada8cdda1057b06c0d1}\label{classprotocol_1_1client_ad1482f806b94bada8cdda1057b06c0d1}} 
+\index{protocol\+::client@{protocol\+::client}!on\+\_\+connection\+\_\+failed@{on\+\_\+connection\+\_\+failed}}
+\index{on\+\_\+connection\+\_\+failed@{on\+\_\+connection\+\_\+failed}!protocol\+::client@{protocol\+::client}}
+\subsubsection{\texorpdfstring{on\+\_\+connection\+\_\+failed()}{on\_connection\_failed()}}
+{\footnotesize\ttfamily void protocol\+::client\+::on\+\_\+connection\+\_\+failed (\begin{DoxyParamCaption}\item[{const std\+::function$<$ void()$>$ \&}]{on\+Connection\+Failed }\end{DoxyParamCaption})}
+
+
+
+set-\/up the on\+\_\+connect\+\_\+failed() user-\/defined function 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em on\+Connection\+Failed} & The function used to be called when a connection fails, it has the form \+: std\+::function$<$void()$>$ \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/client.\+hpp\item 
+src/client.\+cpp\end{DoxyCompactItemize}

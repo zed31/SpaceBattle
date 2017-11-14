@@ -116,4 +116,11 @@ Response::Response(char m, short r, StatusCode s, unsigned b,
 
 } // namespace serialize
 
+serialize::Response make_response(const serialize::StatusCode &code, std::initializer_list<std::string> body) {
+    serialize::Body b{ body };
+    serialize::HeaderResponse head{ serialize::HeaderUtility::default_magic_, serialize::HeaderUtility::default_rev_, code, b.size() };
+    serialize::Response resp{ head, b };
+    return resp;
+}
+
 } // namespace protocol

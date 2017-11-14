@@ -1,0 +1,132 @@
+\hypertarget{structprotocol_1_1serialize_1_1_header_request}{}\section{protocol\+:\+:serialize\+:\+:Header\+Request Struct Reference}
+\label{structprotocol_1_1serialize_1_1_header_request}\index{protocol\+::serialize\+::\+Header\+Request@{protocol\+::serialize\+::\+Header\+Request}}
+
+
+This structure contains the header of a request sent by the client.  
+
+
+
+
+{\ttfamily \#include $<$request.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structprotocol_1_1serialize_1_1_header_request_a5198046f6e2c71335405c52dfd4fe7e7}\label{structprotocol_1_1serialize_1_1_header_request_a5198046f6e2c71335405c52dfd4fe7e7}} 
+\hyperlink{structprotocol_1_1serialize_1_1_header_request_a5198046f6e2c71335405c52dfd4fe7e7}{Header\+Request} ()
+\begin{DoxyCompactList}\small\item\em Default constructor of the \hyperlink{structprotocol_1_1serialize_1_1_header_request}{Header\+Request} structure. \end{DoxyCompactList}\item 
+\hyperlink{structprotocol_1_1serialize_1_1_header_request_a3dfea4cb729e593117ce9f8d5a851ef6}{Header\+Request} (char \hyperlink{structprotocol_1_1serialize_1_1_header_request_ab7c26d951ffb1bbac4622ac5a9f9dbc1}{magic}, short \hyperlink{structprotocol_1_1serialize_1_1_header_request_a9b10c7ac55252322b71c9720854d8d5a}{revision}, Op\+Code opcode, unsigned \hyperlink{structprotocol_1_1serialize_1_1_header_request_a60ceae16d905c732b6b307d09012f935}{buffer\+Size})
+\begin{DoxyCompactList}\small\item\em Construct a header request with all the data necessary. \end{DoxyCompactList}\item 
+\hyperlink{structprotocol_1_1serialize_1_1_header_request_ac9b9387810ae483a9ffa815ecfa158e3}{Header\+Request} (const char $\ast$buffer, std\+::size\+\_\+t buffer\+\_\+length)
+\begin{DoxyCompactList}\small\item\em Construct the request with a buffer. Construct all the response structure with a buffer, if a parameter is missing, then the parameter is set to default value. \end{DoxyCompactList}\item 
+void \hyperlink{structprotocol_1_1serialize_1_1_header_request_a1088cd1ac3338dd42e3a6929c9e5b5bf}{data} (char $\ast$dest) const
+\begin{DoxyCompactList}\small\item\em Set all the datas in the body separate by a \textbackslash{}0. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structprotocol_1_1serialize_1_1_header_request_a8d8850de2897540368d342a33ae748ad}\label{structprotocol_1_1serialize_1_1_header_request_a8d8850de2897540368d342a33ae748ad}} 
+std\+::size\+\_\+t \hyperlink{structprotocol_1_1serialize_1_1_header_request_a8d8850de2897540368d342a33ae748ad}{size} () const
+\begin{DoxyCompactList}\small\item\em Return the size of the header. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+char \hyperlink{structprotocol_1_1serialize_1_1_header_request_ab7c26d951ffb1bbac4622ac5a9f9dbc1}{magic}
+\item 
+short \hyperlink{structprotocol_1_1serialize_1_1_header_request_a9b10c7ac55252322b71c9720854d8d5a}{revision}
+\item 
+Op\+Code \hyperlink{structprotocol_1_1serialize_1_1_header_request_a285c64b3712f2116e17eba412c03c986}{op\+Code}
+\item 
+unsigned \hyperlink{structprotocol_1_1serialize_1_1_header_request_a60ceae16d905c732b6b307d09012f935}{buffer\+Size}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This structure contains the header of a request sent by the client. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structprotocol_1_1serialize_1_1_header_request_a3dfea4cb729e593117ce9f8d5a851ef6}\label{structprotocol_1_1serialize_1_1_header_request_a3dfea4cb729e593117ce9f8d5a851ef6}} 
+\index{protocol\+::serialize\+::\+Header\+Request@{protocol\+::serialize\+::\+Header\+Request}!Header\+Request@{Header\+Request}}
+\index{Header\+Request@{Header\+Request}!protocol\+::serialize\+::\+Header\+Request@{protocol\+::serialize\+::\+Header\+Request}}
+\subsubsection{\texorpdfstring{Header\+Request()}{HeaderRequest()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily protocol\+::serialize\+::\+Header\+Request\+::\+Header\+Request (\begin{DoxyParamCaption}\item[{char}]{magic,  }\item[{short}]{revision,  }\item[{Op\+Code}]{opcode,  }\item[{unsigned}]{buffer\+Size }\end{DoxyParamCaption})}
+
+
+
+Construct a header request with all the data necessary. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em magic} & the magic number of the request \\
+\hline
+\mbox{\tt in}  & {\em revision} & the revision of the request \\
+\hline
+\mbox{\tt in}  & {\em opcode} & the opcode of the request \\
+\hline
+\mbox{\tt in}  & {\em buffer\+Size} & the size of the buffer \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structprotocol_1_1serialize_1_1_header_request_ac9b9387810ae483a9ffa815ecfa158e3}\label{structprotocol_1_1serialize_1_1_header_request_ac9b9387810ae483a9ffa815ecfa158e3}} 
+\index{protocol\+::serialize\+::\+Header\+Request@{protocol\+::serialize\+::\+Header\+Request}!Header\+Request@{Header\+Request}}
+\index{Header\+Request@{Header\+Request}!protocol\+::serialize\+::\+Header\+Request@{protocol\+::serialize\+::\+Header\+Request}}
+\subsubsection{\texorpdfstring{Header\+Request()}{HeaderRequest()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily protocol\+::serialize\+::\+Header\+Request\+::\+Header\+Request (\begin{DoxyParamCaption}\item[{const char $\ast$}]{buffer,  }\item[{std\+::size\+\_\+t}]{buffer\+\_\+length }\end{DoxyParamCaption})}
+
+
+
+Construct the request with a buffer. Construct all the response structure with a buffer, if a parameter is missing, then the parameter is set to default value. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em buffer} & The buffer used to construct the structure \\
+\hline
+\mbox{\tt in}  & {\em buffer\+\_\+length} & Then length of the buffer \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structprotocol_1_1serialize_1_1_header_request_a1088cd1ac3338dd42e3a6929c9e5b5bf}\label{structprotocol_1_1serialize_1_1_header_request_a1088cd1ac3338dd42e3a6929c9e5b5bf}} 
+\index{protocol\+::serialize\+::\+Header\+Request@{protocol\+::serialize\+::\+Header\+Request}!data@{data}}
+\index{data@{data}!protocol\+::serialize\+::\+Header\+Request@{protocol\+::serialize\+::\+Header\+Request}}
+\subsubsection{\texorpdfstring{data()}{data()}}
+{\footnotesize\ttfamily void protocol\+::serialize\+::\+Header\+Request\+::data (\begin{DoxyParamCaption}\item[{char $\ast$}]{dest }\end{DoxyParamCaption}) const}
+
+
+
+Set all the datas in the body separate by a \textbackslash{}0. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt out}  & {\em dest} & The destination of the data, the data function is not responsible of the allocation of dest, you have to make sure that the dest is correctly set. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structprotocol_1_1serialize_1_1_header_request_a60ceae16d905c732b6b307d09012f935}\label{structprotocol_1_1serialize_1_1_header_request_a60ceae16d905c732b6b307d09012f935}} 
+\index{protocol\+::serialize\+::\+Header\+Request@{protocol\+::serialize\+::\+Header\+Request}!buffer\+Size@{buffer\+Size}}
+\index{buffer\+Size@{buffer\+Size}!protocol\+::serialize\+::\+Header\+Request@{protocol\+::serialize\+::\+Header\+Request}}
+\subsubsection{\texorpdfstring{buffer\+Size}{bufferSize}}
+{\footnotesize\ttfamily unsigned protocol\+::serialize\+::\+Header\+Request\+::buffer\+Size}
+
+size of the body \mbox{\Hypertarget{structprotocol_1_1serialize_1_1_header_request_ab7c26d951ffb1bbac4622ac5a9f9dbc1}\label{structprotocol_1_1serialize_1_1_header_request_ab7c26d951ffb1bbac4622ac5a9f9dbc1}} 
+\index{protocol\+::serialize\+::\+Header\+Request@{protocol\+::serialize\+::\+Header\+Request}!magic@{magic}}
+\index{magic@{magic}!protocol\+::serialize\+::\+Header\+Request@{protocol\+::serialize\+::\+Header\+Request}}
+\subsubsection{\texorpdfstring{magic}{magic}}
+{\footnotesize\ttfamily char protocol\+::serialize\+::\+Header\+Request\+::magic}
+
+Magic number of the header request (0x2A) \mbox{\Hypertarget{structprotocol_1_1serialize_1_1_header_request_a285c64b3712f2116e17eba412c03c986}\label{structprotocol_1_1serialize_1_1_header_request_a285c64b3712f2116e17eba412c03c986}} 
+\index{protocol\+::serialize\+::\+Header\+Request@{protocol\+::serialize\+::\+Header\+Request}!op\+Code@{op\+Code}}
+\index{op\+Code@{op\+Code}!protocol\+::serialize\+::\+Header\+Request@{protocol\+::serialize\+::\+Header\+Request}}
+\subsubsection{\texorpdfstring{op\+Code}{opCode}}
+{\footnotesize\ttfamily Op\+Code protocol\+::serialize\+::\+Header\+Request\+::op\+Code}
+
+Op code containing the request \mbox{\Hypertarget{structprotocol_1_1serialize_1_1_header_request_a9b10c7ac55252322b71c9720854d8d5a}\label{structprotocol_1_1serialize_1_1_header_request_a9b10c7ac55252322b71c9720854d8d5a}} 
+\index{protocol\+::serialize\+::\+Header\+Request@{protocol\+::serialize\+::\+Header\+Request}!revision@{revision}}
+\index{revision@{revision}!protocol\+::serialize\+::\+Header\+Request@{protocol\+::serialize\+::\+Header\+Request}}
+\subsubsection{\texorpdfstring{revision}{revision}}
+{\footnotesize\ttfamily short protocol\+::serialize\+::\+Header\+Request\+::revision}
+
+Revision of the response 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/serialization/request.\+hpp\item 
+src/serialization/request.\+cpp\end{DoxyCompactItemize}

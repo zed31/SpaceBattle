@@ -1,0 +1,148 @@
+\hypertarget{classprotocol_1_1_output_connection}{}\section{protocol\+:\+:Output\+Connection Class Reference}
+\label{classprotocol_1_1_output_connection}\index{protocol\+::\+Output\+Connection@{protocol\+::\+Output\+Connection}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classprotocol_1_1_output_connection_a61ed3f73d4513e1616753ea59f193e1e}{Output\+Connection} (asio\+::io\+\_\+service \&service)
+\begin{DoxyCompactList}\small\item\em Construct the output\+Connection The \hyperlink{classprotocol_1_1_output_connection}{Output\+Connection} allows the user to make operation on socket. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classprotocol_1_1_output_connection_afaf4c8e22454b4908143b876e956a475}\label{classprotocol_1_1_output_connection_afaf4c8e22454b4908143b876e956a475}} 
+void \hyperlink{classprotocol_1_1_output_connection_afaf4c8e22454b4908143b876e956a475}{close} ()
+\begin{DoxyCompactList}\small\item\em Close the socket Close the stream, and force the shutdown of the read and write operation. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classprotocol_1_1_output_connection_a5090474d6d3a8ad0189a1f4ef3fa2e56}\label{classprotocol_1_1_output_connection_a5090474d6d3a8ad0189a1f4ef3fa2e56}} 
+void \hyperlink{classprotocol_1_1_output_connection_a5090474d6d3a8ad0189a1f4ef3fa2e56}{read} ()
+\begin{DoxyCompactList}\small\item\em Read the response from the server Read the response from the server then serialize it into a Response object and call the user-\/defined \hyperlink{classprotocol_1_1_output_connection_a3592638f2e736b85d0cd094d94bacdcf}{on\+\_\+read\+\_\+success()} user-\/defined function if read succeed, on\+\_\+read\+\_\+failed() otherwise. \end{DoxyCompactList}\item 
+void \hyperlink{classprotocol_1_1_output_connection_ae457c098638ab42cf1b6ece7f277e72d}{write} (const \hyperlink{structprotocol_1_1serialize_1_1_request}{protocol\+::serialize\+::\+Request} \&request)
+\begin{DoxyCompactList}\small\item\em Write the request on the stream Write the request on the stream, call \hyperlink{classprotocol_1_1_output_connection_a98750b6398a6280fc778e5c0fb0ea14e}{on\+\_\+write\+\_\+success()} user-\/defined function if write succeed, on\+\_\+write\+\_\+failed() user-\/defined otherwise. \end{DoxyCompactList}\item 
+void \hyperlink{classprotocol_1_1_output_connection_a98750b6398a6280fc778e5c0fb0ea14e}{on\+\_\+write\+\_\+success} (const on\+\_\+write\+\_\+success\+\_\+t \&on\+Write\+Success)
+\begin{DoxyCompactList}\small\item\em Set the \hyperlink{classprotocol_1_1_output_connection_a98750b6398a6280fc778e5c0fb0ea14e}{on\+\_\+write\+\_\+success()} user-\/defined function. \end{DoxyCompactList}\item 
+void \hyperlink{classprotocol_1_1_output_connection_a2c70a552249924bd75e0fe472722c1fc}{on\+\_\+write\+\_\+failure} (const on\+\_\+write\+\_\+failure\+\_\+t \&on\+Write\+Failure)
+\begin{DoxyCompactList}\small\item\em Set the \hyperlink{classprotocol_1_1_output_connection_a2c70a552249924bd75e0fe472722c1fc}{on\+\_\+write\+\_\+failure()} user-\/defined function. \end{DoxyCompactList}\item 
+void \hyperlink{classprotocol_1_1_output_connection_a3592638f2e736b85d0cd094d94bacdcf}{on\+\_\+read\+\_\+success} (const on\+\_\+read\+\_\+success\+\_\+t \&on\+Read\+Success)
+\begin{DoxyCompactList}\small\item\em Set the \hyperlink{classprotocol_1_1_output_connection_a3592638f2e736b85d0cd094d94bacdcf}{on\+\_\+read\+\_\+success()} user-\/defined function. \end{DoxyCompactList}\item 
+void \hyperlink{classprotocol_1_1_output_connection_aa3e70f574e6db59202aa4a9cdcad7216}{on\+\_\+read\+\_\+failure} (const on\+\_\+read\+\_\+failure\+\_\+t \&on\+Read\+Failure)
+\begin{DoxyCompactList}\small\item\em Set the \hyperlink{classprotocol_1_1_output_connection_aa3e70f574e6db59202aa4a9cdcad7216}{on\+\_\+read\+\_\+failure()} user-\/defined function. \end{DoxyCompactList}\item 
+void \hyperlink{classprotocol_1_1_output_connection_a6e16ce905582f9cbab7b442e9629d268}{on\+\_\+close} (const on\+\_\+close\+\_\+t \&on\+Close)
+\begin{DoxyCompactList}\small\item\em Set the \hyperlink{classprotocol_1_1_output_connection_a6e16ce905582f9cbab7b442e9629d268}{on\+\_\+close()} user-\/defined function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classprotocol_1_1_output_connection_a82afbffb52dc3f25e56edfe10f7d286a}\label{classprotocol_1_1_output_connection_a82afbffb52dc3f25e56edfe10f7d286a}} 
+class {\bfseries client}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classprotocol_1_1_output_connection_a61ed3f73d4513e1616753ea59f193e1e}\label{classprotocol_1_1_output_connection_a61ed3f73d4513e1616753ea59f193e1e}} 
+\index{protocol\+::\+Output\+Connection@{protocol\+::\+Output\+Connection}!Output\+Connection@{Output\+Connection}}
+\index{Output\+Connection@{Output\+Connection}!protocol\+::\+Output\+Connection@{protocol\+::\+Output\+Connection}}
+\subsubsection{\texorpdfstring{Output\+Connection()}{OutputConnection()}}
+{\footnotesize\ttfamily protocol\+::\+Output\+Connection\+::\+Output\+Connection (\begin{DoxyParamCaption}\item[{asio\+::io\+\_\+service \&}]{service }\end{DoxyParamCaption})}
+
+
+
+Construct the output\+Connection The \hyperlink{classprotocol_1_1_output_connection}{Output\+Connection} allows the user to make operation on socket. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em service} & The service used to construct the socket \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classprotocol_1_1_output_connection_a6e16ce905582f9cbab7b442e9629d268}\label{classprotocol_1_1_output_connection_a6e16ce905582f9cbab7b442e9629d268}} 
+\index{protocol\+::\+Output\+Connection@{protocol\+::\+Output\+Connection}!on\+\_\+close@{on\+\_\+close}}
+\index{on\+\_\+close@{on\+\_\+close}!protocol\+::\+Output\+Connection@{protocol\+::\+Output\+Connection}}
+\subsubsection{\texorpdfstring{on\+\_\+close()}{on\_close()}}
+{\footnotesize\ttfamily void protocol\+::\+Output\+Connection\+::on\+\_\+close (\begin{DoxyParamCaption}\item[{const on\+\_\+close\+\_\+t \&}]{on\+Close }\end{DoxyParamCaption})}
+
+
+
+Set the \hyperlink{classprotocol_1_1_output_connection_a6e16ce905582f9cbab7b442e9629d268}{on\+\_\+close()} user-\/defined function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em on\+Close} & Function close if a close happens on the socket. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classprotocol_1_1_output_connection_aa3e70f574e6db59202aa4a9cdcad7216}\label{classprotocol_1_1_output_connection_aa3e70f574e6db59202aa4a9cdcad7216}} 
+\index{protocol\+::\+Output\+Connection@{protocol\+::\+Output\+Connection}!on\+\_\+read\+\_\+failure@{on\+\_\+read\+\_\+failure}}
+\index{on\+\_\+read\+\_\+failure@{on\+\_\+read\+\_\+failure}!protocol\+::\+Output\+Connection@{protocol\+::\+Output\+Connection}}
+\subsubsection{\texorpdfstring{on\+\_\+read\+\_\+failure()}{on\_read\_failure()}}
+{\footnotesize\ttfamily void protocol\+::\+Output\+Connection\+::on\+\_\+read\+\_\+failure (\begin{DoxyParamCaption}\item[{const on\+\_\+read\+\_\+failure\+\_\+t \&}]{on\+Read\+Failure }\end{DoxyParamCaption})}
+
+
+
+Set the \hyperlink{classprotocol_1_1_output_connection_aa3e70f574e6db59202aa4a9cdcad7216}{on\+\_\+read\+\_\+failure()} user-\/defined function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em on\+Read\+Failure} & Function read if the read fails, this object is an std\+::function$<$void(std\+::error\+\_\+code, Output\+Connection\&)$>$; \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classprotocol_1_1_output_connection_a3592638f2e736b85d0cd094d94bacdcf}\label{classprotocol_1_1_output_connection_a3592638f2e736b85d0cd094d94bacdcf}} 
+\index{protocol\+::\+Output\+Connection@{protocol\+::\+Output\+Connection}!on\+\_\+read\+\_\+success@{on\+\_\+read\+\_\+success}}
+\index{on\+\_\+read\+\_\+success@{on\+\_\+read\+\_\+success}!protocol\+::\+Output\+Connection@{protocol\+::\+Output\+Connection}}
+\subsubsection{\texorpdfstring{on\+\_\+read\+\_\+success()}{on\_read\_success()}}
+{\footnotesize\ttfamily void protocol\+::\+Output\+Connection\+::on\+\_\+read\+\_\+success (\begin{DoxyParamCaption}\item[{const on\+\_\+read\+\_\+success\+\_\+t \&}]{on\+Read\+Success }\end{DoxyParamCaption})}
+
+
+
+Set the \hyperlink{classprotocol_1_1_output_connection_a3592638f2e736b85d0cd094d94bacdcf}{on\+\_\+read\+\_\+success()} user-\/defined function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em on\+Read\+Success} & Function read if the read success, this object is an std\+::function$<$void(const protocol\+::serialize\+::\+Response \&, Output\+Connection \&)$>$ \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classprotocol_1_1_output_connection_a2c70a552249924bd75e0fe472722c1fc}\label{classprotocol_1_1_output_connection_a2c70a552249924bd75e0fe472722c1fc}} 
+\index{protocol\+::\+Output\+Connection@{protocol\+::\+Output\+Connection}!on\+\_\+write\+\_\+failure@{on\+\_\+write\+\_\+failure}}
+\index{on\+\_\+write\+\_\+failure@{on\+\_\+write\+\_\+failure}!protocol\+::\+Output\+Connection@{protocol\+::\+Output\+Connection}}
+\subsubsection{\texorpdfstring{on\+\_\+write\+\_\+failure()}{on\_write\_failure()}}
+{\footnotesize\ttfamily void protocol\+::\+Output\+Connection\+::on\+\_\+write\+\_\+failure (\begin{DoxyParamCaption}\item[{const on\+\_\+write\+\_\+failure\+\_\+t \&}]{on\+Write\+Failure }\end{DoxyParamCaption})}
+
+
+
+Set the \hyperlink{classprotocol_1_1_output_connection_a2c70a552249924bd75e0fe472722c1fc}{on\+\_\+write\+\_\+failure()} user-\/defined function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em on\+Write\+Failure} & Function write if the write fails, this object is an std\+::function$<$void(std\+::error\+\_\+code, Output\+Connection \&, const serialize\+::\+Request \&)$>$ \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classprotocol_1_1_output_connection_a98750b6398a6280fc778e5c0fb0ea14e}\label{classprotocol_1_1_output_connection_a98750b6398a6280fc778e5c0fb0ea14e}} 
+\index{protocol\+::\+Output\+Connection@{protocol\+::\+Output\+Connection}!on\+\_\+write\+\_\+success@{on\+\_\+write\+\_\+success}}
+\index{on\+\_\+write\+\_\+success@{on\+\_\+write\+\_\+success}!protocol\+::\+Output\+Connection@{protocol\+::\+Output\+Connection}}
+\subsubsection{\texorpdfstring{on\+\_\+write\+\_\+success()}{on\_write\_success()}}
+{\footnotesize\ttfamily void protocol\+::\+Output\+Connection\+::on\+\_\+write\+\_\+success (\begin{DoxyParamCaption}\item[{const on\+\_\+write\+\_\+success\+\_\+t \&}]{on\+Write\+Success }\end{DoxyParamCaption})}
+
+
+
+Set the \hyperlink{classprotocol_1_1_output_connection_a98750b6398a6280fc778e5c0fb0ea14e}{on\+\_\+write\+\_\+success()} user-\/defined function. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em on\+Write\+Success} & Function write if the write success, this object is an std\+::function$<$void(\+Output\+Connection \&, const serialize\+::\+Request \&)$>$ \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classprotocol_1_1_output_connection_ae457c098638ab42cf1b6ece7f277e72d}\label{classprotocol_1_1_output_connection_ae457c098638ab42cf1b6ece7f277e72d}} 
+\index{protocol\+::\+Output\+Connection@{protocol\+::\+Output\+Connection}!write@{write}}
+\index{write@{write}!protocol\+::\+Output\+Connection@{protocol\+::\+Output\+Connection}}
+\subsubsection{\texorpdfstring{write()}{write()}}
+{\footnotesize\ttfamily void protocol\+::\+Output\+Connection\+::write (\begin{DoxyParamCaption}\item[{const \hyperlink{structprotocol_1_1serialize_1_1_request}{protocol\+::serialize\+::\+Request} \&}]{request }\end{DoxyParamCaption})}
+
+
+
+Write the request on the stream Write the request on the stream, call \hyperlink{classprotocol_1_1_output_connection_a98750b6398a6280fc778e5c0fb0ea14e}{on\+\_\+write\+\_\+success()} user-\/defined function if write succeed, on\+\_\+write\+\_\+failed() user-\/defined otherwise. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em request} & The request sent to the server \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/client.\+hpp\item 
+src/client.\+cpp\end{DoxyCompactItemize}
