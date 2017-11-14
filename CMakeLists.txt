@@ -68,7 +68,7 @@ target_include_directories(space_proto INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/i
 
 add_executable(
        server
-       protocol/test/server.cpp
+        protocol/test/stubs/server.cpp
 )
 
 target_include_directories(server INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/include)
@@ -83,22 +83,37 @@ target_link_libraries(
 #################################################
 
 add_executable(
-       client
-       protocol/test/client.cpp
+        client
+        protocol/test/stubs/client.cpp
 )
 
 target_include_directories(client INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/include)
 
 target_link_libraries(
-       client
-       space_proto
-       Threads::Threads
+        client
+        space_proto
+        Threads::Threads
+)
+
+#################################################
+#UNIT TESTS
+#################################################
+
+add_executable(
+        protocole_unit_test
+        protocol/test/unit_test/data_serialization.cpp
+        protocol/test/unit_test/test_protocole.cpp
+)
+
+target_include_directories(protocole_unit_test INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/include)
+
+target_link_libraries(
+        protocole_unit_test
+        space_proto
+        googletest
+        Threads::Threads
 )
 
 if(MINGW)
     target_link_libraries(protocole_test user32 wsock32 ws2_32)
 endif()
-
-#include(CTest)
-#enable_testing()
-#add_test(unit ${PROJECT_BINARY_DIR}/unit_tests)
