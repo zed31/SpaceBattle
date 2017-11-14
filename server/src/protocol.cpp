@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "input_connection_pool.hpp"
+#include "request_processer.hpp"
 #include "protocol.hpp"
 
 namespace space_battle {
@@ -23,7 +24,6 @@ void Protocol::run() {
     };
 
     auto on_close = [this]() {
-        std::cout << "on_close: Removing client" << std::endl;
         this->m_input_collection->remove(m_id);
     };
 
@@ -34,20 +34,13 @@ void Protocol::run() {
 }
 
 void Protocol::on_read_success(const protocol::serialize::Request &request, protocol::InputConnection &input) {
-    std::cerr << "Read succeed, " << request.size() << std::endl;
-    std::cerr << "magic : " << static_cast<int>(request.header.magic) << std::endl;
-    std::cerr << "revision : " << request.header.revision << std::endl;
-    std::cerr << "size of buffer : " << request.header.bufferSize << std::endl;
-    for (auto it : request.body.content()) {
-        std::cerr << "Body : " << it << std::endl;
-    }
-    auto response = protocol::make_response(protocol::serialize::StatusCode::OK, {"tes", "vraiment", "trop", "con"});
-    input.write(response);
+  RequestProcesser p{ m_id };
+  auto response = p.process(request);
+  input.write(response);
 }
 
 void Protocol::on_read_fail(const std::error_code error, protocol::InputConnection &input) {
-    std::cerr << "on_read_fail: Read failed: " << error << std::endl;
-    input.close();
+  input.close();
 }
 
 } // namespace space_battle

@@ -38,28 +38,7 @@ set(CMAKE_THREAD_PREFER_PTHREAD ON)
 #################################################
 #PROTOCOLE
 #################################################
-
-set(
-        PROTOCOL_SRC
-        protocol/include/server.hpp
-        protocol/src/server.cpp
-        protocol/include/client.hpp
-        protocol/src/client.cpp
-        protocol/include/serialization/request.hpp
-        protocol/include/serialization/data_utils.hpp
-        protocol/include/serialization/body.hpp
-        protocol/src/serialization/body.cpp
-        protocol/src/serialization/request.cpp
-        protocol/include/serialization/response.hpp
-        protocol/src/serialization/response.cpp
-)
-
-add_library(
-        space_proto
-        ${PROTOCOL_SRC}
-)
-
-target_include_directories(space_proto INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/include)
+add_subdirectory(protocol)
 
 
 #################################################
@@ -74,7 +53,7 @@ add_executable(
 target_include_directories(server_sample INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}/include)
 target_link_libraries(
         server_sample
-        space_proto
+        libspace_proto
         Threads::Threads
 )
 
@@ -91,7 +70,7 @@ target_include_directories(client_sample INTERFACE PUBLIC ${PROTOCOL_API_FOLDER}
 
 target_link_libraries(
         client_sample
-        space_proto
+        libspace_proto
         Threads::Threads
 )
 
@@ -109,7 +88,7 @@ target_include_directories(protocole_unit_test INTERFACE PUBLIC ${PROTOCOL_API_F
 
 target_link_libraries(
         protocole_unit_test
-        space_proto
+        libspace_proto
         googletest
         Threads::Threads
 )

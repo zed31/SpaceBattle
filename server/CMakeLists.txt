@@ -24,11 +24,11 @@ include_directories(
 set(
         SERVER_SRC
         ${SERVER_PATH_SRC}/main.cpp
-        include/server_engine.hpp src/server_engine.cpp include/input_connection_pool.hpp src/input_connection_pool.cpp include/protocol.hpp src/protocol.cpp)
+        include/server_engine.hpp src/server_engine.cpp include/input_connection_pool.hpp src/input_connection_pool.cpp include/protocol.hpp src/protocol.cpp include/request_processer.hpp src/request_processer.cpp include/room_interface.hpp include/room.hpp src/room.cpp)
 
 add_executable(server ${SERVER_SRC})
 target_link_libraries(
         server
-        space_proto
+        libspace_proto
         Threads::Threads
 )
