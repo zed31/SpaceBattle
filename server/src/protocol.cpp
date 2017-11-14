@@ -23,6 +23,7 @@ void Protocol::run() {
     };
 
     auto on_close = [this]() {
+        std::cout << "on_close: Removing client" << std::endl;
         this->m_input_collection->remove(m_id);
     };
 
