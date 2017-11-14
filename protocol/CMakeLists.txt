@@ -12,7 +12,7 @@ set(PROTOCOL protocol)
 
 include_directories(
         ${EXTERNAL_LIBS}/include
-        ${PROTOCOL}/include
+        ./include
 )
 
 set(
