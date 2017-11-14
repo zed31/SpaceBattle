@@ -32,6 +32,7 @@ set(
 
 add_library(
         libspace_proto
+        STATIC
         ${PROTOCOL_SRC}
 )
 
