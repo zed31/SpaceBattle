@@ -13,14 +13,20 @@ namespace space_battle {
 /*! \brief The class that holds the room */
 class Room {
 public:
-  /*! \brief Insert the client inside the viewers queue */
-  protocol::serialize::StatusCode insert_viewer(std::size_t viewerId);
-
-  /*! \brief Insert the client inside the player queue */
-  protocol::serialize::StatusCode insert_player(std::size_t playerId);
-private:
-  std::vector<std::size_t> m_player_id;
-  std::vector<std::size_t> m_viewer_id;
+    /*! \brief Construct the room with a specific and unique id
+     * @param[in]   room_id   The Id of the room
+    */
+    Room(std::size_t room_id);
+    /*! \brief Send message to the chatroom
+     * @param[in] clientId    The id of the client
+     * @param[in] message     The message sent to the chatroom
+     * return a status code to inform if the message is sent correctly
+    */
+    protocol::serialize::StatusCode send_message(std::size_t clientId, const std::string &message);
+    /*! \brief return the id of the room */
+    std::size_t get_room_id() const;
+protected:
+    std::size_t m_room_id;
 };
 
 } // namespace space_battle

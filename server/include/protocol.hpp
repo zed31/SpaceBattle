@@ -6,6 +6,7 @@
 #define SPACE_BATTLE_PROTOCOL_HPP
 
 #include "server.hpp"
+#include "room_interface.hpp"
 
 namespace space_battle {
 
@@ -42,6 +43,7 @@ private:
     std::size_t m_id;
     output_ptr_t m_connection;
     InputConnectionPool *m_input_collection;
+    RoomInterface m_room_interface;
 };
 
 }

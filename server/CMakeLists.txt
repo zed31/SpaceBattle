@@ -27,7 +27,7 @@ set(
         include/server_engine.hpp src/server_engine.cpp include/input_connection_pool.hpp src/input_connection_pool.cpp
         include/protocol.hpp src/protocol.cpp include/request_processer.hpp src/request_processer.cpp include/room_interface.hpp
         include/room.hpp src/room.cpp
-)
+        include/general_room.hpp src/general_room.cpp src/room_interface.cpp)
 
 add_executable(server ${SERVER_SRC})
 target_link_libraries(

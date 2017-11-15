@@ -3,9 +3,9 @@
 //
 
 #include <iostream>
+#include <room.hpp>
 #include "input_connection_pool.hpp"
 #include "request_processer.hpp"
-#include "protocol.hpp"
 
 namespace space_battle {
 
@@ -34,7 +34,7 @@ void Protocol::run() {
 }
 
 void Protocol::on_read_success(const protocol::serialize::Request &request, protocol::InputConnection &input) {
-  RequestProcesser p{ m_id };
+  RequestProcesser p{ m_id, m_room_interface };
   auto response = p.process(request);
   input.write(response);
 }
