@@ -5,14 +5,15 @@
 #include <iostream>
 #include <room.hpp>
 #include "input_connection_pool.hpp"
-#include "request_processer.hpp"
 
 namespace space_battle {
 
 Protocol::Protocol(InputConnectionPool &inputCollection,
                    std::size_t id,
-                   output_ptr_t &&connection)
-    : m_id{id}, m_connection{std::move(connection)}, m_input_collection{&inputCollection} {}
+                   output_ptr_t &&connection, RoomInterface &roomInterface)
+    : m_id{id}, m_connection{std::move(connection)}, m_input_collection{&inputCollection},
+      m_room_interface{ &roomInterface },
+      m_request_processer{ std::make_unique<RequestProcesser>(m_id, *m_room_interface) } {}
 
 void Protocol::run() {
     auto on_read_succeed = [this](const auto &request, auto &input) {
@@ -34,8 +35,7 @@ void Protocol::run() {
 }
 
 void Protocol::on_read_success(const protocol::serialize::Request &request, protocol::InputConnection &input) {
-  RequestProcesser p{ m_id, m_room_interface };
-  auto response = p.process(request);
+  auto response = m_request_processer->process(request);
   input.write(response);
 }
 

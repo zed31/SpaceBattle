@@ -10,7 +10,7 @@ namespace space_battle {
 
 InputConnectionPool::proto_id_t InputConnectionPool::insert(output_ptr_t &&connection) {
     std::size_t id = m_input_collection.size() + 1;
-    auto protocol = std::make_unique<Protocol>(*this, id, std::move(connection));
+    auto protocol = std::make_unique<Protocol>(*this, id, std::move(connection), m_room_interface);
     protocol->run();
     m_input_collection.push_back({id, std::move(protocol)});
     return id;

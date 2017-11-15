@@ -35,6 +35,7 @@ private:
     };
     std::vector<InputConnectionAssociation> m_input_collection;
     std::vector<InputConnectionAssociation> m_input_collection_closed;
+    RoomInterface m_room_interface;
 };
 
 } // namespace space_battle

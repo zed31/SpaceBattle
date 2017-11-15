@@ -16,6 +16,7 @@ std::size_t Room::get_room_id() const {
 
 protocol::serialize::StatusCode Room::send_message(std::size_t clientId, const std::string &message) {
     std::cout << "Receive new message from : " << clientId << ": " << message << std::endl;
+    m_chat_room.insert_message(clientId, message);
     return protocol::serialize::StatusCode::OK;
 }
 

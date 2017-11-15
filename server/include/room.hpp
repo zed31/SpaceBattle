@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "serialization/data_utils.hpp"
+#include "chat_room.hpp"
 
 namespace space_battle {
 
@@ -17,16 +18,19 @@ public:
      * @param[in]   room_id   The Id of the room
     */
     Room(std::size_t room_id);
+
     /*! \brief Send message to the chatroom
      * @param[in] clientId    The id of the client
      * @param[in] message     The message sent to the chatroom
      * return a status code to inform if the message is sent correctly
     */
     protocol::serialize::StatusCode send_message(std::size_t clientId, const std::string &message);
+
     /*! \brief return the id of the room */
     std::size_t get_room_id() const;
 protected:
     std::size_t m_room_id;
+    ChatRoom m_chat_room;
 };
 
 } // namespace space_battle

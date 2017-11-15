@@ -11,6 +11,7 @@
 
 namespace space_battle {
 
+//TODO : Store it in a Protocol class to keep the room ID and other information about the rooms
 /*! \brief Process a specific request  */
 class RequestProcesser {
 public:
@@ -25,6 +26,7 @@ public:
     protocol::serialize::Response process(const protocol::serialize::Request &request) const;
 private:
     std::size_t m_player_id;
+    std::size_t m_room_information;
     RoomInterface *m_room;
 };
 
