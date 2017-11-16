@@ -8,7 +8,7 @@
 
 namespace space_battle {
 
-Room::Room(std::size_t room_id) : m_room_id{ room_id } {}
+Room::Room(std::size_t roomId) : m_room_id{ roomId } {}
 
 std::size_t Room::get_room_id() const {
     return m_room_id;

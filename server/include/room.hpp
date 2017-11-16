@@ -22,9 +22,9 @@ public:
     /*! \brief Send message to the chatroom
      * @param[in] clientId    The id of the client
      * @param[in] message     The message sent to the chatroom
-     * return a status code to inform if the message is sent correctly
+     * \return a status code to inform if the message is sent correctly
     */
-    protocol::serialize::StatusCode send_message(std::size_t clientId, const std::string &message);
+    virtual protocol::serialize::StatusCode send_message(std::size_t clientId, const std::string &message);
 
     /*! \brief return the id of the room */
     std::size_t get_room_id() const;

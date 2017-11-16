@@ -21,4 +21,24 @@ protocol::serialize::StatusCode GeneralRoom::insert_client(std::size_t client) {
     }
 }
 
+protocol::serialize::StatusCode GeneralRoom::send_message(std::size_t clientId, const std::string &message) {
+    std::cout << "GeneralRoom::send_message: Send message to the general room" << std::endl;
+    auto it = std::find(m_client.begin(), m_client.end(), clientId);
+    if (it == m_client.end()) {
+        std::cout << "GeneralRoom::send_message: Permission denied" << std::endl;
+        return protocol::serialize::StatusCode::PERMISSION_DENIED;
+    }
+    std::cout << "GeneralRoom::send_message: Message will be sent" << std::endl;
+    return Room::send_message(clientId, message);
+}
+
+protocol::serialize::StatusCode GeneralRoom::remove_client(std::size_t clientId) {
+    auto it = std::find(m_client.begin(), m_client.end(), clientId);
+    if (it == m_client.end()) {
+        return protocol::serialize::StatusCode::PERMISSION_DENIED;
+    }
+    m_client.erase(it);
+    return protocol::serialize::StatusCode::OK;
+}
+
 } // namespace space_battle

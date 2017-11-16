@@ -10,7 +10,7 @@ int main() {
     protocol::server s{6060};
     std::unique_ptr<protocol::InputConnection> in;
     auto on_accept = [&] (std::unique_ptr<protocol::InputConnection> &&input) {
-
+        std::cerr << "Connection succeed" << std::endl;
         in = std::move(input);
         auto on_read = [] (const protocol::serialize::Request &request, protocol::InputConnection &out) {
             std::cerr << "Read succeed, " << request.size() << std::endl;
