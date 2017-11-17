@@ -34,9 +34,12 @@ protocol::serialize::StatusCode GeneralRoom::send_message(std::size_t clientId, 
 
 protocol::serialize::StatusCode GeneralRoom::remove_client(std::size_t clientId) {
     auto it = std::find(m_client.begin(), m_client.end(), clientId);
+    std::cout << "GeneralRoom::remove_client: Removing client " << clientId << " from the general room" << std::endl;
     if (it == m_client.end()) {
-        return protocol::serialize::StatusCode::PERMISSION_DENIED;
+        std::cout << "GeneralRoom::remove_client: Client " << clientId << " not found" << std::endl;
+        return protocol::serialize::StatusCode::CLIENT_NOT_FOUND;
     }
+    std::cout << "GeneralRoom::remove_client: Client " << clientId << " found, removing now" << std::endl;
     m_client.erase(it);
     return protocol::serialize::StatusCode::OK;
 }

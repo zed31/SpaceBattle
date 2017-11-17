@@ -39,8 +39,10 @@ void Protocol::on_read_success(const protocol::serialize::Request &request, prot
   input.write(response);
 }
 
-void Protocol::on_read_fail(const std::error_code error, protocol::InputConnection &input) {
-  input.close();
+void Protocol::on_read_fail(const std::error_code, protocol::InputConnection &input) {
+    std::cout << "Protocol::on_read_fail: Read failed, removing client from the room and close the connection" << std::endl;
+    m_request_processer->remove_from_room();
+    input.close();
 }
 
 } // namespace space_battle

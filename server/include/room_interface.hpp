@@ -34,6 +34,18 @@ public:
      * @return the status code of the request
     */
     protocol::serialize::StatusCode send_message(size_t roomId, std::size_t clientId, const std::string &message);
+
+    /*! \brief Remove the client from the general room
+     * @param[in]   clientId    The id of the client
+     * @return the status code relative to the removal of a client
+    */
+    protocol::serialize::StatusCode remove_from_general(std::size_t clientId);
+
+    /*! \brief Remove the client from the game room he belong
+     * @param[in]   clientId    The id of the client
+     * @return the status code of the request
+    */
+    protocol::serialize::StatusCode remove_from_game(std::size_t clientId);
 private:
     GeneralRoom m_general;
     std::vector<game_room_ptr_t> m_game_room;

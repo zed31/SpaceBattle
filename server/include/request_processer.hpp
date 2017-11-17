@@ -23,11 +23,18 @@ public:
     /*! \brief process the request
      * @param[in] request The request the server needs to process
     */
-    protocol::serialize::Response process(const protocol::serialize::Request &request) const;
+    protocol::serialize::Response process(const protocol::serialize::Request &request);
+
+    /*! \brief Remove the user from game and general room usually called when a read fail */
+    void remove_from_room();
+private:
+    protocol::serialize::Response connect_user(const protocol::serialize::Request &request);
 private:
     std::size_t m_player_id;
     std::size_t m_room_information;
     RoomInterface *m_room;
+    std::string m_nickname;
+
 };
 
 } // namespace space_battle
