@@ -43,6 +43,12 @@ private:
      * @param[in]   error   The error code
     */
     void on_read_fail(const std::error_code error, protocol::InputConnection &input);
+
+    /*! \brief Function triggered when a write succeed
+     * @param[in]   response    The response that the server sent to the client
+     * @param[in]   input       The input used to communicate with the client
+    */
+    void on_write_success(const protocol::serialize::Response &response, protocol::InputConnection &input);
 private:
     std::size_t m_id;
     output_ptr_t m_connection;

@@ -10,6 +10,9 @@ namespace space_battle {
 
 GameRoom::GameRoom(std::size_t roomId) : Room{ roomId } {}
 
+GameRoom::GameRoom(std::size_t roomId, const std::string &name, std::size_t nbrViewer, std::size_t limitOfTime)
+        : Room{ roomId }, m_name{ name }, m_viewer_limit{ nbrViewer }, m_time_limit{ limitOfTime } {}
+
 protocol::serialize::StatusCode GameRoom::remove_client(std::size_t clientId) {
     auto it = std::find(m_player_ids.begin(), m_player_ids.end(), clientId);
 
@@ -52,6 +55,10 @@ bool GameRoom::is_in_room(std::size_t clientId) const {
 
     std::cout << "GameRoom::is_in_room: Client " << clientId << " found in the player container" << std::endl;
     return true;
+}
+
+RoomInformation GameRoom::get_room_info() const {
+    return RoomInformation{m_room_id, m_name, protocol::serialize::StatusCode::OK};
 }
 
 } // namespace space_battle

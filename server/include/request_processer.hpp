@@ -11,7 +11,6 @@
 
 namespace space_battle {
 
-//TODO : Store it in a Protocol class to keep the room ID and other information about the rooms
 /*! \brief Process a specific request  */
 class RequestProcesser {
 public:
@@ -29,6 +28,13 @@ public:
     void remove_from_room();
 private:
     protocol::serialize::Response connect_user(const protocol::serialize::Request &request);
+    protocol::serialize::Response send_message(const protocol::serialize::Request &request);
+    protocol::serialize::Response leave();
+    protocol::serialize::Response number_game();
+    protocol::serialize::Response create_game(const protocol::serialize::Request &request);
+    protocol::serialize::Response get_game_info();
+    protocol::serialize::Response get_nbr_client_connected();
+    protocol::serialize::Response join_as_player(const protocol::serialize::Request &request);
 private:
     std::size_t m_player_id;
     std::size_t m_room_information;

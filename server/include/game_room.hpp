@@ -8,6 +8,7 @@
 #include <vector>
 #include "room.hpp"
 #include "non_copyable.hpp"
+#include "room_information.hpp"
 
 namespace space_battle {
 
@@ -18,6 +19,14 @@ public:
     enum GameStatus { NEW, WAITING_FOR_PLAYER, WAITING_FOR_LAUNCHING, IN_PROGRESS };
 
     GameRoom(std::size_t roomId);
+
+    /*! \brief Create a room with the parameter
+     * @param[in]   roomId  The id of the room
+     * @param[in]   name    The name of the room
+     * @param[in]   limitOfTime the limit of time
+     * @param[in]   nbrViewer   The number of viewers
+    */
+    GameRoom(std::size_t roomId, const std::string &name, std::size_t nbrViewer, std::size_t limitOfTime);
 
     /*! \brief remove a client from the collection of viewer or players
      * @param[in]   clientId    The id of the client
@@ -30,7 +39,11 @@ public:
      * @return true if the client is in the room, false otherwise
     */
     bool is_in_room(std::size_t clientId) const;
+
+    /*! \brief return room information */
+    RoomInformation get_room_info() const;
 private:
+    std::string m_name;
     std::size_t m_viewer_limit;
     std::size_t m_time_limit;
     GameStatus m_room_status;

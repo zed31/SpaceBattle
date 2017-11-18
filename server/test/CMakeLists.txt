@@ -21,10 +21,12 @@ include_directories(
 
 set(
         CLIENT_STUB_SRC
-        client/client.cpp)
+        client/client.cpp
+)
 add_executable(client_stub ${CLIENT_STUB_SRC})
 target_link_libraries(
         client_stub
         libspace_proto
+        googletest
         Threads::Threads
 )

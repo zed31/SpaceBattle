@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "room.hpp"
+#include "room_information.hpp"
 
 namespace space_battle {
 
@@ -34,6 +35,17 @@ public:
      * @return the status code of the request
     */
     protocol::serialize::StatusCode remove_client(std::size_t clientId);
+
+    /*! \brief Check if an user is in the room
+     * @param[in]   clientId    The id of the client
+     * @return true if the user is in the room, false otherwise
+    */
+    bool is_in_room(std::size_t clientId) const;
+
+    /*! \brief return the number of connected clients
+     * @return the number of client in the general room
+    */
+    std::size_t get_nbr_client() const;
 private:
     std::vector<std::size_t> m_client;
 };

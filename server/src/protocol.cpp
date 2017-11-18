@@ -25,18 +25,28 @@ void Protocol::run() {
     };
 
     auto on_close = [this]() {
+        std::cout << "on_close: Closing success, removing the protocol " << this << " " << this->m_input_collection << std::endl;
         this->m_input_collection->remove(m_id);
+    };
+
+    auto on_write = [this](const auto &response, auto &input) {
+        this->on_write_success(response, input);
     };
 
     m_connection->on_read_failed(on_read_failure);
     m_connection->on_close(on_close);
     m_connection->on_read_succeed(on_read_succeed);
+    m_connection->on_write_succeed(on_write);
     m_connection->read();
 }
 
 void Protocol::on_read_success(const protocol::serialize::Request &request, protocol::InputConnection &input) {
-  auto response = m_request_processer->process(request);
-  input.write(response);
+    auto response = m_request_processer->process(request);
+    input.write(response);
+}
+
+void Protocol::on_write_success(const protocol::serialize::Response &, protocol::InputConnection &) {
+
 }
 
 void Protocol::on_read_fail(const std::error_code, protocol::InputConnection &input) {
