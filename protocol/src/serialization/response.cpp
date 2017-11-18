@@ -123,4 +123,12 @@ serialize::Response make_response(const serialize::StatusCode &code, std::initia
     return resp;
 }
 
+serialize::Response make_response(const serialize::StatusCode &code, const std::vector<std::string> &body) {
+    serialize::Body b{ body };
+    serialize::HeaderResponse head{ serialize::HeaderUtility::default_magic_, serialize::HeaderUtility::default_rev_, code, b.size() };
+    serialize::Response resp{ head, b };
+    return resp;
+}
+
+
 } // namespace protocol

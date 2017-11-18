@@ -110,6 +110,9 @@ Request::Request(char m, short r, OpCode o, unsigned b,
                  std::initializer_list<std::string> bodyContent)
     : header{m, r, o, b}, body{bodyContent}{}
 
+Request::Request(char m, short r, OpCode o, unsigned b,
+                 const std::vector<std::string> &bodyContent) : header{m, r, o, b}, body{bodyContent} {}
+
 std::size_t Request::size() const noexcept {
     return header.size() + body.size();
 }
@@ -117,6 +120,12 @@ std::size_t Request::size() const noexcept {
 } // namespace protocol
 
 serialize::Request make_request(const serialize::OpCode &opCode, std::initializer_list<std::string> body) {
+    serialize::Body b{body};
+    serialize::Request req{ serialize::HeaderUtility::default_magic_, serialize::HeaderUtility::default_rev_, opCode, b.size(), body };
+    return req;
+}
+
+serialize::Request make_request(const serialize::OpCode &opCode, const std::vector<std::string> &body) {
     serialize::Body b{body};
     serialize::Request req{ serialize::HeaderUtility::default_magic_, serialize::HeaderUtility::default_rev_, opCode, b.size(), body };
     return req;

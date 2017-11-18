@@ -16,6 +16,14 @@ Body::Body(std::initializer_list<std::string> in) noexcept {
     }
 }
 
+Body::Body(const std::vector<std::string> &body) noexcept {
+    m_body_length = 0;
+    for (auto const &content : body) {
+        m_body.push_back(content);
+        m_body_length += content.size() + 1;
+    }
+}
+
 Body::Body(const char *buffer, std::size_t buffer_length) noexcept {
     m_body_length = 0;
     for (std::size_t i = 0; i < buffer_length;) {

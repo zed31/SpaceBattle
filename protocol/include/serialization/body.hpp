@@ -23,6 +23,11 @@ public:
     */
     Body(std::initializer_list<std::string> in) noexcept;
 
+    /*! \brief Construct the body with a set of data
+     * @param[in] content    the vector used to generate the body
+    */
+    Body(const std::vector<std::string> &content) noexcept;
+
     /*! \brief Construct the body with an array of bytes
      * @param[in]   buffer          The buffer used to construct the body
      * @param[in]   buffer_length   The length of the buffer

@@ -74,6 +74,15 @@ struct Request {
     */
     Request(char magic, short revision, OpCode opCode, unsigned bufferSize, std::initializer_list<std::string> body);
 
+    /*! \brief Construct the request with the header and the body
+     * @param[in]       magic       The magic number of the request
+     * @param[in]       revision    The revision of the request
+     * @param[in]       opCode      The opCode of the request
+     * @param[in]       bufferSize  The size of the body
+     * @param[in]       body        The content of the body
+    */
+    Request(char magic, short revision, OpCode opCode, unsigned bufferSize, const std::vector<std::string> &body);
+
     /*! \brief Construct a request structure with an array of bytes
      * @param[in]   buffer          The array of bytes containing the request
      * @param[in]   buffer_length   The length of the buffer
@@ -99,6 +108,14 @@ struct Request {
  * @param[in]   body    The body used to generate the request
 */
 serialize::Request make_request(const serialize::OpCode &opCode, std::initializer_list<std::string> body);
+
+/*! \brief generate the request structure
+ * make_request ensure that the request will be built with the latest version of the request information
+ * (magic and revision)
+ * @param[in]   opCode  The op code used to generate the request
+ * @param[in]   body    The body used to generate the request
+*/
+serialize::Request make_request(const serialize::OpCode &opCode, const std::vector<std::string> &body);
 
 } // namespace protocol
 

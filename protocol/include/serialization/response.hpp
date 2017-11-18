@@ -103,6 +103,13 @@ struct Response {
 */
 serialize::Response make_response(const serialize::StatusCode &code, std::initializer_list<std::string> body);
 
+/*! \brief Generate Response structure
+ * make_response generate the latest-version of the response (e.g : With the last revision, magic)
+ * @param[in]   code    The status code of the response
+ * @param[in]   body    The body of the response
+*/
+serialize::Response make_response(const serialize::StatusCode &code, const std::vector<std::string> &body);
+
 } // namespace protocol
 
 #endif //SPACE_BATTLE_RESPONSE_HPP
