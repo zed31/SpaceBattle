@@ -29,6 +29,8 @@ enum class StatusCode : unsigned short {
     LIST_GAME = 0xB113,
     NICKNAME_NOT_SET = 0xB114,
     CLIENT_NOT_FOUND = 0xB115,
+    ROOM_NOT_FOUND = 0xB116,
+    LEAVE_SUCCESS = 0xB117,
     GAME_CREATED = 0xB101,
     TOO_MANY_CLIENTS = 0xB100,
     GAME_ID_DOESNT_EXIST = 0xB103,
