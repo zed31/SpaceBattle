@@ -16,7 +16,21 @@ namespace space_battle {
 class GameRoom : public Room, public NonCopyable {
 public:
     /*! \brief Status of the game */
-    enum GameStatus { NEW, WAITING_FOR_PLAYER, WAITING_FOR_LAUNCHING, IN_PROGRESS };
+    enum GameStatus : unsigned int {
+        NEW = 0,
+        WAITING_FOR_PLAYER = 1,
+        WAITING_FOR_LAUNCHING = 2,
+        IN_PROGRESS = 2
+    };
+
+    /*! \brief structure that contains game information */
+    struct GameInformation {
+        std::string name;
+        std::size_t viewerLimit;
+        std::size_t nbrPlayer;
+        std::size_t timeLimit;
+        GameStatus status;
+    };
 
     GameRoom(std::size_t roomId);
 
@@ -40,8 +54,26 @@ public:
     */
     bool is_in_room(std::size_t clientId) const;
 
-    /*! \brief return room information */
+    /*! \brief return room information
+     * @return RoomInformation that contains information about the room
+    */
     RoomInformation get_room_info() const;
+
+    /*! \brief return information about the game
+     * @return GameInformation that contains information about the game
+    */
+    GameInformation get_game_info() const;
+
+    /*! \brief insert player in the room
+     * @param[in] clientId the id of the client
+     * @return the status code that corresponds to the insertion
+    */
+    protocol::serialize::StatusCode insert_player(std::size_t clientId);
+
+    /*! \brief insert player in the room as viewer
+     * @param[in] clientId the id of the client
+    */
+    protocol::serialize::StatusCode insert_viewer(std::size_t clientId);
 private:
     std::string m_name;
     std::size_t m_viewer_limit;

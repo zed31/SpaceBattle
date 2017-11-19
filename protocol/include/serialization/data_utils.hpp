@@ -11,6 +11,14 @@ namespace protocol {
 
 namespace serialize {
 
+/*! \brief This enumeration contains status available for the game */
+enum class GameStatus : unsigned int {
+    NEW = 0,
+    WAITING_FOR_PLAYER = 1,
+    WAITING_FOR_LAUNCHING = 2,
+    IN_PROGRESS = 3
+};
+
 /*! \brief This enumeration contain all the response possible the server can sent */
 enum class StatusCode : unsigned short {
     OK = 0xB000,
@@ -32,6 +40,7 @@ enum class StatusCode : unsigned short {
     CLIENT_NOT_FOUND = 0xB115,
     ROOM_NOT_FOUND = 0xB116,
     LEAVE_SUCCESS = 0xB117,
+    NUMBER_OF_GAME = 0xB118,
     GAME_CREATED = 0xB101,
     TOO_MANY_CLIENTS = 0xB100,
     GAME_ID_DOESNT_EXIST = 0xB103,
@@ -44,7 +53,7 @@ enum class StatusCode : unsigned short {
     CLIENT_ALREADY_IN_ROOM = 0xB115,
     CLIENT_ARRIVED_IN_GAME = 0xB111,
     GAME_CHANGE_STATUS = 0xB112,
-    USER_ALREADY_IN_ROOM = 0xB113,
+    GAME_STATUS = 0xB119,
     WAITING_FOR_SECOND_PLAYER = 0xB120,
     READY_TO_PLAY = 0xB121,
     MISS_SHIP = 0xB122,
@@ -57,15 +66,16 @@ enum class StatusCode : unsigned short {
 enum class OpCode : unsigned short {
     SEND_MESSAGE = 0xA100,
     CLIENT_DISCONNECT = 0xA101,
-    NUMBER_GAME_MAKABLE = 0xA102,
     CLIENT_CONNECT = 0xA103,
-    NUMBER_GAME_CREATED = 0xA110,
+    GET_GAME_DETAILED_INFO = 0xA114,
     CREATE_GAME = 0xA111,
     JOIN_AS_PLAYER = 0xA112,
     JOIN_AS_VIEWER = 0xA113,
-    GET_GAME_INFO = 0xA114,
-    PEOPLE_LOGGED_IN = 0xA115,
-    NBR_PEOPLE_LOGGED_IN = 0xA116,
+    GET_GAME_INFO = 0xA110,
+    NBR_PEOPLE_LOGGED_IN = 0xA115,
+    PLAYER_LOGGED_IN = 0xA116,
+    GET_NBR_GAME_CREATED = 0xA117,
+    GET_GAME_STATUS = 0xA118,
     READY_TO_PLAY = 0xA120,
     TARGET = 0xA121,
     LEAVE = 0xA122,

@@ -19,7 +19,7 @@ set(
         PROTOCOL_SRC
         ./include/server.hpp
         ./src/server.cpp
-        ./include/client.hpp
+        include/client.hpp
         ./src/client.cpp
         ./include/serialization/request.hpp
         ./include/serialization/data_utils.hpp

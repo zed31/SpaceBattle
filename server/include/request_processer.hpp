@@ -30,11 +30,13 @@ private:
     protocol::serialize::Response connect_user(const protocol::serialize::Request &request);
     protocol::serialize::Response send_message(const protocol::serialize::Request &request);
     protocol::serialize::Response leave();
-    protocol::serialize::Response number_game();
     protocol::serialize::Response create_game(const protocol::serialize::Request &request);
     protocol::serialize::Response get_game_info();
     protocol::serialize::Response get_nbr_client_connected();
-    protocol::serialize::Response join_as_player(const protocol::serialize::Request &request);
+    protocol::serialize::Response join_game_room(const protocol::serialize::Request &request, bool player = true);
+    protocol::serialize::Response get_player_nbr(const protocol::serialize::Request &request);
+    protocol::serialize::Response get_game_created();
+    protocol::serialize::Response get_game_status(const protocol::serialize::Request &request);
 private:
     std::size_t m_player_id;
     std::size_t m_room_information;

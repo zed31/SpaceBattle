@@ -65,14 +65,7 @@ protocol::serialize::Response RequestProcesser::send_message(const protocol::ser
 protocol::serialize::Response RequestProcesser::leave() {
     std::cout << "User " << m_player_id << " want to leave, removing the client from the rooms" << std::endl;
     m_room->remove_from_game(m_player_id);
-    m_room->remove_from_general(m_player_id);
     return protocol::make_response(protocol::serialize::StatusCode::LEAVE_SUCCESS, {});
-}
-
-protocol::serialize::Response RequestProcesser::number_game() {
-    auto gameLimit = m_room->get_game_limit();
-    auto str = std::to_string(gameLimit);
-    return protocol::make_response(protocol::serialize::StatusCode::NUMBER_GAME_MAKABLE, {str});
 }
 
 protocol::serialize::Response RequestProcesser::create_game(const protocol::serialize::Request &request) {
@@ -82,12 +75,6 @@ protocol::serialize::Response RequestProcesser::create_game(const protocol::seri
     if (m_room->is_in_room(m_player_id)) {
         std::cout << "RequestProcesser::create_game: User already in a room and cannot create a game" << std::endl;
         return protocol::make_response(protocol::serialize::StatusCode::PERMISSION_DENIED, {});
-    }
-
-    auto limitOfGame = m_room->get_game_limit();
-    if (!limitOfGame) {
-        std::cout << "RequestProcesser::create_game: No more game can be made" << std::endl;
-        return protocol::make_response(protocol::serialize::StatusCode::FORMAT_ERROR, {"\x06"});
     }
 
     if (bodyContent.size() != 4) {
@@ -110,22 +97,30 @@ protocol::serialize::Response RequestProcesser::create_game(const protocol::seri
     }
 
     try {
+
         limitOfTime = std::stoi(bodyContent[3]);
+        if (limitOfTime != 0 && limitOfTime != 30 && limitOfTime != 90) {
+
+            std::cout << "RequestProcesser::create_game: Invalid limit of time" << std::endl;
+            return protocol::make_response(protocol::serialize::StatusCode::FORMAT_ERROR, {"\x04"});
+
+        }
+
     } catch (const std::out_of_range &) {
         std::cout << "RequestProcesser::create_game: Invalid limit of time" << std::endl;
-        return protocol::make_response(protocol::serialize::StatusCode::FORMAT_ERROR, {"\x05"});
+        return protocol::make_response(protocol::serialize::StatusCode::FORMAT_ERROR, {"\x04"});
     } catch (const std::invalid_argument &) {
         std::cout << "RequestProcesser::create_game: Invalid limit of time" << std::endl;
-        return protocol::make_response(protocol::serialize::StatusCode::FORMAT_ERROR, {"\x05"});
+        return protocol::make_response(protocol::serialize::StatusCode::FORMAT_ERROR, {"\x04"});
     }
 
     auto hasViewer = bodyContent[1];
     if (hasViewer.size() != 1 || (hasViewer[0] != '1' && hasViewer[0] != '0')) {
         std::cout << "RequestProcesser::create_game: Invalid has viewer" << std::endl;
-        return protocol::make_response(protocol::serialize::StatusCode::FORMAT_ERROR, {"\x04"});
+        return protocol::make_response(protocol::serialize::StatusCode::FORMAT_ERROR, {"\x03"});
     }
 
-    auto idRoom = m_room->create_game(gameName, hasViewer[0] ? nbrViewer : 0, limitOfTime);
+    auto idRoom = m_room->create_game(m_player_id, gameName, hasViewer[0] ? nbrViewer : 0, limitOfTime);
     auto strIdRoom = std::to_string(idRoom);
 
     std::cout << "RequestProcesser::create_game: All good, creating the game now" << std::endl;
@@ -142,7 +137,7 @@ protocol::serialize::Response RequestProcesser::get_game_info() {
         gameInfosSerialized.push_back(it.name);
     }
 
-    return protocol::make_response(protocol::serialize::StatusCode::GAME_INFO, gameInfosSerialized);
+    return protocol::make_response(protocol::serialize::StatusCode::LIST_GAME, gameInfosSerialized);
 }
 
 protocol::serialize::Response RequestProcesser::get_nbr_client_connected() {
@@ -151,24 +146,145 @@ protocol::serialize::Response RequestProcesser::get_nbr_client_connected() {
     return protocol::make_response(protocol::serialize::StatusCode::NUMBER_CLIENT_CONNECTED, {connectedClientStr});
 }
 
-protocol::serialize::Response RequestProcesser::join_as_player(const protocol::serialize::Request &request) {
-    std::cout << "RequestProcesser::join_as_player: Joining as player, check if user is in room" << std::endl;
+protocol::serialize::Response RequestProcesser::join_game_room(const protocol::serialize::Request &request, bool playerInsert) {
+    std::cout << "RequestProcesser::join_game_room: Joining as player, check if user is in room" << std::endl;
 
     auto isInRoom = m_room->is_in_room(m_player_id);
     if (isInRoom) {
+        std::cout << "RequestProcesser::join_game_room: Player already in a game room" << std::endl;
         return protocol::make_response(protocol::serialize::StatusCode::PERMISSION_DENIED, {});
     }
 
     auto bodyContent = request.body.content();
-
-    try {
-        //TODO : Check if the game id is correct
-    } catch (const std::out_of_range &) {
-        //TODO : Out of range
+    auto size = bodyContent.size();
+    if (size != 1) {
+        std::cout << "RequestProcesser::join_game_room: Incorrect body size" << std::endl;
+        return protocol::make_response(protocol::serialize::StatusCode::FORMAT_ERROR, {"\x01"});
     }
 
-    //TODO : Register player
-    return protocol::make_response(protocol::serialize::StatusCode::OK, {});
+    try {
+        std::cout << "RequestProcesser::join_game_room: Checking the game id" << std::endl;
+        auto gameId = std::stoi(bodyContent[0]);
+        auto gameRoomIt = m_room->get_game(gameId);
+
+        if (gameRoomIt == m_room->end()) {
+            std::cout << "RequestProcesser::join_game_room: room " << gameId << " not found" << std::endl;
+            return protocol::make_response(protocol::serialize::StatusCode::ROOM_NOT_FOUND, {});
+        }
+
+        protocol::serialize::StatusCode statusCode{};
+
+        if (playerInsert) {
+            statusCode = (*gameRoomIt)->insert_player(m_player_id);
+        } else {
+            statusCode = (*gameRoomIt)->insert_viewer(m_player_id);
+        }
+
+        if (statusCode == protocol::serialize::StatusCode::CLIENT_JOIN_GAME) {
+            std::cout << "RequestProcesser::join_game_room: client " << m_player_id << " inserted inside the game " << gameId << std::endl;
+            auto gameInformation = (*gameRoomIt)->get_game_info();
+            auto gameName = gameInformation.name;
+            auto viewerNbr = std::to_string(gameInformation.viewerLimit);
+            auto timeLimit = std::to_string(gameInformation.timeLimit);
+            auto playerNbr = std::to_string(gameInformation.nbrPlayer);
+            auto gameStatus = std::to_string(static_cast<unsigned int>(gameInformation.status));
+            return protocol::make_response(protocol::serialize::StatusCode::CLIENT_JOIN_GAME, {gameName, viewerNbr, playerNbr, timeLimit, gameStatus});
+        }
+
+        return protocol::make_response(protocol::serialize::StatusCode::TOO_MANY_CLIENTS, {});
+    } catch (const std::out_of_range &) {
+        std::cout << "RequestProcesser::join_game_room: GameID too big" << std::endl;
+        return protocol::make_response(protocol::serialize::StatusCode::FORMAT_ERROR, {"\x01"});
+    } catch (const std::invalid_argument &) {
+        std::cout << "RequestProcesser::join_game_room: GameID invalid" << std::endl;
+        return protocol::make_response(protocol::serialize::StatusCode::FORMAT_ERROR, {"\x01"});
+    }
+}
+
+protocol::serialize::Response RequestProcesser::get_player_nbr(const protocol::serialize::Request &request) {
+    std::cout << "RequestProcesser::get_player_nbr: Check if the body is valid" << std::endl;
+
+    auto bodyContent = request.body.content();
+
+    if (bodyContent.size() != 1) {
+        std::cout << "RequestProcesser::get_player_nbr: Invalid body" << std::endl;
+        return protocol::make_response(protocol::serialize::StatusCode::FORMAT_ERROR, {"\x01"});
+    }
+
+    std::cout << "RequestProcesser::get_player_nbr: Body valid, check validity of the game id" << std::endl;
+    try {
+
+        auto gameId = std::stoi(bodyContent[0]);
+        std::cout << "RequestProcesser::get_player_nbr: Get game " << gameId << std::endl;
+        auto gameRoomIt = m_room->get_game(gameId);
+        if (gameRoomIt == m_room->end()) {
+
+            std::cout << "RequestProcesser::get_player_nbr: Game room not found" << std::endl;
+            return protocol::make_response(protocol::serialize::StatusCode::ROOM_NOT_FOUND, {});
+
+        }
+
+        auto nbrPlayers = std::to_string((*gameRoomIt)->get_game_info().nbrPlayer);
+        return protocol::make_response(protocol::serialize::StatusCode::PLAYER_NUMBER, {nbrPlayers});
+
+    } catch (const std::out_of_range &) {
+
+        std::cout << "RequestProcesser::get_player_nbr: game id is out of range" << std::endl;
+        return protocol::make_response(protocol::serialize::StatusCode::FORMAT_ERROR, {"\x01"});
+
+    } catch (const std::invalid_argument &) {
+
+        std::cout << "RequestProcesser::get_player_nbr: game id is invalid" << std::endl;
+        return protocol::make_response(protocol::serialize::StatusCode::FORMAT_ERROR, {"\x01"});
+
+    }
+}
+
+protocol::serialize::Response RequestProcesser::get_game_created() {
+    std::cout << "RequestProcesser::get_game_created get the number of game created" << std::endl;
+
+    auto nbrGame = std::to_string(m_room->nbr_game_created());
+    return protocol::make_response(protocol::serialize::StatusCode::NUMBER_OF_GAME, {nbrGame});
+}
+
+protocol::serialize::Response RequestProcesser::get_game_status(const protocol::serialize::Request &request) {
+    std::cout << "RequestProcesser::get_game_status: Get the content of the body" << std::endl;
+
+    auto bodyContent = request.body.content();
+    if (bodyContent.size() != 1) {
+
+        std::cout << "RequestProcesser::get_game_status: Incorrect size of the body" << std::endl;
+        return protocol::make_response(protocol::serialize::StatusCode::FORMAT_ERROR, {"\x01"});
+
+    }
+
+    try {
+
+        std::cout << "RequestProcesser::get_game_status: Try to convert the bodyContent[0]: " << bodyContent[0] << " into a number" << std::endl;
+        auto gameId = std::stoi(bodyContent[0]);
+        auto gameIt = m_room->get_game(gameId);
+
+        if (gameIt == m_room->end()) {
+
+            std::cout << "RequestProcesser::get_game_status: Room not found" << std::endl;
+            return protocol::make_response(protocol::serialize::StatusCode::ROOM_NOT_FOUND, {});
+
+        }
+
+        auto status = std::to_string(static_cast<unsigned>((*gameIt)->get_game_info().status));
+        return protocol::make_response(protocol::serialize::StatusCode::GAME_STATUS, {status});
+
+    } catch (const std::out_of_range &) {
+
+        std::cout << "RequestProcesser::get_game_status: Conversion failed, number out of range" << std::endl;
+        return protocol::make_response(protocol::serialize::StatusCode::FORMAT_ERROR, {"\x01"});
+
+    } catch (const std::invalid_argument &) {
+
+        std::cout << "RequestProcesser::get_game_status: Conversion failed, invalid argument" << std::endl;
+        return protocol::make_response(protocol::serialize::StatusCode::FORMAT_ERROR, {"\x01"});
+
+    }
 }
 
 protocol::serialize::Response RequestProcesser::process(const protocol::serialize::Request &request) {
@@ -185,28 +301,40 @@ protocol::serialize::Response RequestProcesser::process(const protocol::serializ
             return send_message(request);
         };
         case protocol::serialize::OpCode::LEAVE : {
-            std::cout << "RequestProcesser::process: User " << m_player_id << " want to leave" << std::endl;
+            std::cout << "RequestProcesser::process: User " << m_player_id << " wants to leave" << std::endl;
             return leave();
         };
-        case protocol::serialize::OpCode::NUMBER_GAME_MAKABLE: {
-            std::cout << "RequestProcesser::process: User " << m_player_id << " want to know how many game he can create" << std::endl;
-            return number_game();
-        };
         case protocol::serialize::OpCode::CREATE_GAME: {
-            std::cout << "RequestProcesser::process: User " << m_player_id << " want to create game" << std::endl;
+            std::cout << "RequestProcesser::process: User " << m_player_id << " wants to create game" << std::endl;
             return create_game(request);
         };
         case protocol::serialize::OpCode::GET_GAME_INFO: {
-            std::cout << "RequestProcesser::process: User " << m_player_id << " want to get game information" << std::endl;
+            std::cout << "RequestProcesser::process: User " << m_player_id << " wants to get game information" << std::endl;
             return get_game_info();
         };
         case protocol::serialize::OpCode::NBR_PEOPLE_LOGGED_IN: {
-            std::cout << "RequestProcesser::process: User " << m_player_id << " want to know how many people are connected" << std::endl;
+            std::cout << "RequestProcesser::process: User " << m_player_id << " wants to know how many people are connected" << std::endl;
             return get_nbr_client_connected();
         };
         case protocol::serialize::OpCode::JOIN_AS_PLAYER: {
-            std::cout << "RequestProcesser::process: User " << m_player_id << " want to join a room as player" << std::endl;
-            return join_as_player(request);
+            std::cout << "RequestProcesser::process: User " << m_player_id << " wants to join a room as player" << std::endl;
+            return join_game_room(request);
+        };
+        case protocol::serialize::OpCode::JOIN_AS_VIEWER: {
+            std::cout << "RequestProcesser::process: User " << m_player_id << " wants to join a room as viewer" << std::endl;
+            return join_game_room(request, false);
+        };
+        case protocol::serialize::OpCode::PLAYER_LOGGED_IN: {
+            std::cout << "RequestProcesser::process: User " << m_player_id << " wants to know number of player in a game" << std::endl;
+            return get_player_nbr(request);
+        };
+        case protocol::serialize::OpCode::GET_NBR_GAME_CREATED: {
+            std::cout << "RequestProcesser::process: User " << m_player_id << " wants to know number of game created" << std::endl;
+            return get_game_created();
+        };
+        case protocol::serialize::OpCode::GET_GAME_STATUS: {
+            std::cout << "RequestProcesser::process: User " << m_player_id << " information about status of a game" << std::endl;
+            return get_game_status(request);
         };
         default: return protocol::make_response(protocol::serialize::StatusCode::PERMISSION_DENIED, {"tes", "vraiment", "trop", "con"});
     }

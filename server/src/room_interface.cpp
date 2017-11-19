@@ -8,12 +8,23 @@
 
 namespace space_battle {
 
-RoomInterface::RoomInterface(size_t limit) : m_game_limit{ limit } {}
-
 RoomInformation RoomInterface::insert_on_general_room(std::size_t clientId) {
     auto statusCode = m_general.insert_client(clientId);
     auto roomId = m_general.get_room_id();
     return RoomInformation{ roomId, "general", statusCode };
+}
+
+protocol::serialize::StatusCode RoomInterface::insert_player_in_game(std::size_t roomId, std::size_t clientId) {
+    std::cout << "RoomInterface::insert_player_in_game: Looking for the room id" << std::endl;
+    auto it = std::find_if(m_game_room.begin(), m_game_room.end(), [roomId] (const auto &gamePtr) { return gamePtr->get_room_id() == roomId; });
+
+    if (it == m_game_room.end()) {
+        std::cout << "RoomInterface::insert_player_in_game: Game " << roomId << " not found" << std::endl;
+        return protocol::serialize::StatusCode::GAME_ID_DOESNT_EXIST;
+    }
+
+    std::cout << "RoomInterface::insert_player_in_game: Game" << roomId << " found, insert client " << clientId << " on it" << std::endl;
+    return (*it)->insert_player(clientId);
 }
 
 protocol::serialize::StatusCode RoomInterface::send_message(size_t roomId, std::size_t clientId, const std::string &message) {
@@ -60,9 +71,10 @@ bool RoomInterface::is_in_room(std::size_t clientId) const {
     return it != m_game_room.end();
 }
 
-std::size_t RoomInterface::create_game(const std::string &name, std::size_t nbrViewer, std::size_t limitOfTime) {
+std::size_t RoomInterface::create_game(std::size_t clientId, const std::string &name, std::size_t nbrViewer, std::size_t limitOfTime) {
     auto idRoom = m_game_room.size() + 1;
     auto gameRoom = std::make_unique<GameRoom>(idRoom, name, nbrViewer, limitOfTime);
+    gameRoom->insert_player(clientId);
     m_game_room.push_back(std::move(gameRoom));
     return idRoom;
 }
@@ -79,7 +91,19 @@ std::vector<RoomInformation> RoomInterface::get_game_info() const {
 }
 
 std::size_t RoomInterface::get_client_connected() const {
-    m_general.get_nbr_client();
+    return m_general.get_nbr_client();
+}
+
+RoomInterface::game_room_iterator_t RoomInterface::get_game(std::size_t gameId) {
+    return std::find_if(m_game_room.begin(), m_game_room.end(), [gameId] (const auto &gamePtr) { return gamePtr->get_room_id() == gameId; });
+}
+
+RoomInterface::game_room_iterator_t RoomInterface::end() {
+    return m_game_room.end();
+}
+
+std::size_t RoomInterface::nbr_game_created() const {
+    return m_game_room.size();
 }
 
 } // namespace space_battle

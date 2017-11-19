@@ -23,9 +23,21 @@ set(
         CLIENT_STUB_SRC
         client/client.cpp
 )
-add_executable(client_stub ${CLIENT_STUB_SRC})
+add_executable(client_simple_game_creation ${CLIENT_STUB_SRC})
 target_link_libraries(
-        client_stub
+        client_simple_game_creation
+        libspace_proto
+        googletest
+        Threads::Threads
+)
+
+set(
+        CLIENT_STUB_JOIN_SRC
+        client/client_simple_join.cpp
+)
+add_executable(client_simple_join ${CLIENT_STUB_JOIN_SRC})
+target_link_libraries(
+        client_simple_join
         libspace_proto
         googletest
         Threads::Threads

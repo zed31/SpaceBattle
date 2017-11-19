@@ -14,7 +14,7 @@
 class ClientStub {
 public:
     ClientStub(protocol::OutputConnection &out) : m_out{ &out } {};
-    void try_connection() {
+    void run_test() {
         m_out->on_read_success([this] (const protocol::serialize::Response &response, protocol::OutputConnection &) {
             std::cout << "try_connection: Read success, check if user is connected" << std::endl;
             if (response.header.statusCode == protocol::serialize::StatusCode::CLIENT_CONNECTED) {
@@ -59,15 +59,183 @@ private:
             std::cout << "send_message: Read success, check if the answer is correct" << std::endl;
 
             auto statusCode = response.header.statusCode;
-            EXPECT_EQ(statusCode, protocol::serialize::StatusCode::OK);
-            if (statusCode == protocol::serialize::StatusCode::OK) {
-                std::cout << "send_message: Message sent correctly creating game" << std::endl;
-                create_game();
-            } else {
-                std::cout << "send_message: Message not sent correctly" << std::endl;
-            }
+            ASSERT_EQ(statusCode, protocol::serialize::StatusCode::OK);
+            create_game_with_bad_nbr_params();
+
         });
         m_out->write(protocol::make_request(protocol::serialize::OpCode::SEND_MESSAGE, {std::to_string(m_room_id), "Bonjour la france"}));
+        m_out->read();
+
+    }
+
+    void create_game_with_bad_nbr_params() {
+
+        std::cout << "create_game_with_bad_nbr_params: Trying to create a game with only fiew parameters" << std::endl;
+
+        m_out->on_read_success([this](const auto &response, const auto &) {
+            std::cout << "create_game_with_bad_nbr_params: Reading something, should be Okay" << std::endl;
+
+            auto statusCode = response.header.statusCode;
+            EXPECT_EQ(statusCode, protocol::serialize::StatusCode::FORMAT_ERROR);
+
+            std::cout << "create_game_with_bad_nbr_params: Status code OK" << std::endl;
+
+            auto bodyContent = response.body.content();
+            ASSERT_EQ(bodyContent.size(), static_cast<std::size_t>(1));
+
+            std::cout << "create_game_with_bad_nbr_params: Body size OK" << std::endl;
+
+            std::cout << "create_game_with_bad_nbr_params: Body of the response should contains 0x01" << std::endl;
+            ASSERT_EQ(bodyContent[0], "\x01");
+
+            std::cout << "create_game_with_bad_nbr_params: End, everything is OK" << std::endl;
+            create_game_with_invalid_visitor();
+        });
+
+        m_out->write(protocol::make_request(protocol::serialize::OpCode::CREATE_GAME, {"game01", "1"}));
+        m_out->read();
+    }
+
+    void create_game_with_invalid_visitor() {
+
+        std::cout << "create_game_with_invalid_visitor: Trying to create a game with invalid number of viewers" << std::endl;
+
+        m_out->on_read_success([this](const auto &response, const auto &) {
+            std::cout << "create_game_with_invalid_visitor: Reading something, should be Okay" << std::endl;
+
+            auto statusCode = response.header.statusCode;
+            EXPECT_EQ(statusCode, protocol::serialize::StatusCode::FORMAT_ERROR);
+
+            std::cout << "create_game_with_invalid_visitor: Status code OK" << std::endl;
+
+            auto bodyContent = response.body.content();
+            ASSERT_EQ(bodyContent.size(), static_cast<std::size_t>(1));
+
+            std::cout << "create_game_with_invalid_visitor: Body size OK" << std::endl;
+
+            std::cout << "create_game_with_invalid_visitor: Body of the response should contains 0x02" << std::endl;
+            ASSERT_EQ(bodyContent[0], "\x02");
+
+            std::cout << "create_game_with_invalid_visitor: End, everything is OK" << std::endl;
+            create_game_with_invalid_hasviewer();
+        });
+
+        m_out->write(protocol::make_request(protocol::serialize::OpCode::CREATE_GAME, {"game01", "1", "pouet", "0"}));
+        m_out->read();
+    }
+
+    void create_game_with_invalid_hasviewer() {
+
+        std::cout << "create_game_with_invalid_hasviewer: Trying to create a game with invalid hasviewer" << std::endl;
+
+        m_out->on_read_success([this](const auto &response, const auto &) {
+            std::cout << "create_game_with_invalid_hasviewer: Reading something, should be Okay" << std::endl;
+
+            auto statusCode = response.header.statusCode;
+            EXPECT_EQ(statusCode, protocol::serialize::StatusCode::FORMAT_ERROR);
+
+            std::cout << "create_game_with_invalid_hasviewer: Status code OK" << std::endl;
+
+            auto bodyContent = response.body.content();
+            ASSERT_EQ(bodyContent.size(), static_cast<std::size_t>(1));
+
+            std::cout << "create_game_with_invalid_hasviewer: Body size OK" << std::endl;
+
+            std::cout << "create_game_with_invalid_hasviewer: Body of the response should contains 0x03" << std::endl;
+            ASSERT_EQ(bodyContent[0], "\x03");
+
+            std::cout << "create_game_with_invalid_hasviewer: End, everything is OK" << std::endl;
+            create_game_with_bad_timelimit();
+        });
+
+        m_out->write(protocol::make_request(protocol::serialize::OpCode::CREATE_GAME, {"game01", "2", "300", "0"}));
+        m_out->read();
+
+    }
+
+    void create_game_with_bad_timelimit() {
+
+        std::cout << "create_game_with_bad_timelimit: Trying to create a game with invalid limit of time" << std::endl;
+
+        m_out->on_read_success([this](const auto &response, const auto &) {
+            std::cout << "create_game_with_bad_timelimit: Reading something, should be Okay" << std::endl;
+
+            auto statusCode = response.header.statusCode;
+            EXPECT_EQ(statusCode, protocol::serialize::StatusCode::FORMAT_ERROR);
+
+            std::cout << "create_game_with_bad_timelimit: Status code OK" << std::endl;
+
+            auto bodyContent = response.body.content();
+            ASSERT_EQ(bodyContent.size(), static_cast<std::size_t>(1));
+
+            std::cout << "create_game_with_bad_timelimit: Body size OK" << std::endl;
+
+            std::cout << "create_game_with_bad_timelimit: Body of the response should contains 0x03" << std::endl;
+            ASSERT_EQ(bodyContent[0], "\x04");
+
+            std::cout << "create_game_with_bad_timelimit: End, everything is OK" << std::endl;
+            create_game_with_bad_timelimit_conversion();
+        });
+
+        m_out->write(protocol::make_request(protocol::serialize::OpCode::CREATE_GAME, {"game01", "1", "300", "300"}));
+        m_out->read();
+
+    }
+
+    void create_game_with_bad_timelimit_conversion() {
+
+        std::cout << "create_game_with_bad_timelimit_conversion: Trying to create a game with invalid limit of time conversion" << std::endl;
+
+        m_out->on_read_success([this](const auto &response, const auto &) {
+            std::cout << "create_game_with_bad_timelimit_conversion: Reading something, should be Okay" << std::endl;
+
+            auto statusCode = response.header.statusCode;
+            EXPECT_EQ(statusCode, protocol::serialize::StatusCode::FORMAT_ERROR);
+
+            std::cout << "create_game_with_bad_timelimit_conversion: Status code OK" << std::endl;
+
+            auto bodyContent = response.body.content();
+            ASSERT_EQ(bodyContent.size(), static_cast<std::size_t>(1));
+
+            std::cout << "create_game_with_bad_timelimit_conversion: Body size OK" << std::endl;
+
+            std::cout << "create_game_with_bad_timelimit_conversion: Body of the response should contains 0x03" << std::endl;
+            ASSERT_EQ(bodyContent[0], "\x04");
+
+            std::cout << "create_game_with_bad_timelimit_conversion: End, everything is OK" << std::endl;
+            create_game_with_bad_hasviewer_conversion();
+        });
+
+        m_out->write(protocol::make_request(protocol::serialize::OpCode::CREATE_GAME, {"game01", "1", "300", "abracadabra"}));
+        m_out->read();
+
+    }
+
+    void create_game_with_bad_hasviewer_conversion() {
+
+        std::cout << "create_game_with_invalid_hasviewer_conversion: Trying to create a game with invalid hasviewer conversion" << std::endl;
+
+        m_out->on_read_success([this](const auto &response, const auto &) {
+            std::cout << "create_game_with_invalid_hasviewer: Reading something, should be Okay" << std::endl;
+
+            auto statusCode = response.header.statusCode;
+            EXPECT_EQ(statusCode, protocol::serialize::StatusCode::FORMAT_ERROR);
+
+            std::cout << "create_game_with_invalid_hasviewer_conversion: Status code OK" << std::endl;
+
+            auto bodyContent = response.body.content();
+            ASSERT_EQ(bodyContent.size(), static_cast<std::size_t>(1));
+
+            std::cout << "create_game_with_invalid_hasviewer_conversion: Body size OK" << std::endl;
+
+            std::cout << "create_game_with_invalid_hasviewer_conversion: Body of the response should contains 0x03" << std::endl;
+            ASSERT_EQ(bodyContent[0], "\x03");
+
+            std::cout << "create_game_with_invalid_hasviewer_conversion: End, everything is OK" << std::endl;
+            create_game();
+        });
+
+        m_out->write(protocol::make_request(protocol::serialize::OpCode::CREATE_GAME, {"game01", "abracadabra", "300", "0"}));
         m_out->read();
 
     }
@@ -89,7 +257,7 @@ private:
 
         });
 
-        m_out->write(protocol::make_request(protocol::serialize::OpCode::CREATE_GAME, {"game01", "1", "3", "0"}));
+        m_out->write(protocol::make_request(protocol::serialize::OpCode::CREATE_GAME, {"game01", "1", "1", "0"}));
         m_out->read();
 
     }
@@ -102,7 +270,7 @@ private:
             std::cout << "get_game_info: Reading something, should be Okay" << std::endl;
 
             auto statusCode = response.header.statusCode;
-            EXPECT_EQ(statusCode, protocol::serialize::StatusCode::GAME_INFO);
+            EXPECT_EQ(statusCode, protocol::serialize::StatusCode::LIST_GAME);
 
             std::cout << "get_game_info: Status code OK" << std::endl;
 
@@ -121,12 +289,128 @@ private:
             EXPECT_EQ("game01", name);
 
             std::cout << "get_game_info: name of the game OK" << std::endl;
+            get_nbr_client_connected();
         });
 
         m_out->write(protocol::make_request(protocol::serialize::OpCode::GET_GAME_INFO, {}));
         m_out->read();
 
     }
+
+    void get_nbr_client_connected() {
+
+        std::cout << "get_nbr_game: Get the number of game, should be one" << std::endl;
+
+        m_out->on_read_success([this](const auto &response, const auto &) {
+            std::cout << "get_nbr_game: Reading something, should be Okay" << std::endl;
+
+            auto statusCode = response.header.statusCode;
+            EXPECT_EQ(statusCode, protocol::serialize::StatusCode::NUMBER_CLIENT_CONNECTED);
+
+            std::cout << "get_nbr_game: Status code OK" << std::endl;
+
+            auto bodyContent = response.body.content();
+            ASSERT_EQ(bodyContent.size(), static_cast<std::size_t>(1));
+
+            std::cout << "get_nbr_game: Body size OK" << std::endl;
+
+            std::cout << "get_game_info: Check if the number of client: " << bodyContent[0] << " is valid" << std::endl;
+            auto nbrClientConnected = std::stoi(bodyContent[0]);
+            ASSERT_EQ(nbrClientConnected, static_cast<unsigned>(1));
+
+            std::cout << "get_game_info: End, everything is OK" << std::endl;
+            get_nbr_players();
+        });
+
+        m_out->write(protocol::make_request(protocol::serialize::OpCode::NBR_PEOPLE_LOGGED_IN, {}));
+        m_out->read();
+
+    }
+
+    void get_nbr_players() {
+
+        std::cout << "get_nbr_players: Get the number of game, should be one" << std::endl;
+
+        m_out->on_read_success([this](const auto &response, const auto &) {
+            std::cout << "get_nbr_players: Reading something, should be Okay" << std::endl;
+
+            auto statusCode = response.header.statusCode;
+            EXPECT_EQ(statusCode, protocol::serialize::StatusCode::PLAYER_NUMBER);
+
+            std::cout << "get_nbr_players: Status code OK" << std::endl;
+
+            auto bodyContent = response.body.content();
+            ASSERT_EQ(bodyContent.size(), static_cast<std::size_t>(1));
+
+            std::cout << "get_nbr_players: Body size OK" << std::endl;
+
+            std::cout << "get_nbr_players: Check if the number of client: " << bodyContent[0] << " is valid" << std::endl;
+            auto nbrClientConnected = std::stoi(bodyContent[0]);
+            ASSERT_EQ(nbrClientConnected, static_cast<unsigned>(1));
+
+            std::cout << "get_nbr_players: End, everything is OK" << std::endl;
+            create_game_without_access();
+        });
+
+        m_out->write(protocol::make_request(protocol::serialize::OpCode::PLAYER_LOGGED_IN, {std::to_string(m_game_room_id)}));
+        m_out->read();
+
+    }
+
+    void create_game_without_access() {
+
+        std::cout << "create_game_without_access: Get the number of game, should be one" << std::endl;
+
+        m_out->on_read_success([this](const auto &response, const auto &) {
+            std::cout << "create_game_without_access: Reading something, should be Okay" << std::endl;
+
+            auto statusCode = response.header.statusCode;
+            EXPECT_EQ(statusCode, protocol::serialize::StatusCode::PERMISSION_DENIED);
+
+            std::cout << "create_game_without_access: Status code OK" << std::endl;
+
+            auto bodyContent = response.body.content();
+            ASSERT_EQ(bodyContent.size(), static_cast<std::size_t>(0));
+
+            std::cout << "create_game_without_access: Body size OK" << std::endl;
+
+            std::cout << "create_game_without_access: End, everything is OK" << std::endl;
+            get_nbr_of_game();
+        });
+
+        m_out->write(protocol::make_request(protocol::serialize::OpCode::CREATE_GAME, {"game01", "1", "3", "0"}));
+        m_out->read();
+
+    }
+
+    void get_nbr_of_game() {
+
+        std::cout << "get_nbr_of_game: Get the number of game, should be one" << std::endl;
+
+        m_out->on_read_success([this](const auto &response, const auto &) {
+            std::cout << "get_nbr_of_game: Reading something, should be Okay" << std::endl;
+
+            auto statusCode = response.header.statusCode;
+            EXPECT_EQ(statusCode, protocol::serialize::StatusCode::NUMBER_OF_GAME);
+
+            std::cout << "get_nbr_of_game: Status code OK" << std::endl;
+
+            auto bodyContent = response.body.content();
+            ASSERT_EQ(bodyContent.size(), static_cast<std::size_t>(1));
+
+            std::cout << "get_nbr_of_game: Body size OK" << std::endl;
+
+            auto nbrGame = std::stoi(bodyContent[0]);
+            ASSERT_EQ(nbrGame, static_cast<unsigned>(1));
+
+            std::cout << "get_nbr_of_game: End, everything is OK" << std::endl;
+        });
+
+        m_out->write(protocol::make_request(protocol::serialize::OpCode::GET_NBR_GAME_CREATED, {}));
+        m_out->read();
+
+    }
+
 
     protocol::OutputConnection *m_out;
     std::string m_nickname;
@@ -143,59 +427,8 @@ int main() {
         auto on_connect = [&](protocol::OutputConnection &outputConnection) {
 
             stub = std::make_unique<ClientStub>(outputConnection);
-            stub->try_connection();
-            /*auto on_write_success = [&](protocol::OutputConnection &out, const protocol::serialize::Request &request) {
-                std::cout << "on_write_success: Writing success, processing read now" << std::endl;
-                out.read();
-            };
-            outputConnection.on_write_success(on_write_success);
+            stub->run_test();
 
-            auto on_write_failure = [&](std::error_code ec, protocol::OutputConnection &out, const protocol::serialize::Request &) {
-                std::cerr << "on_write_failure: " << ec << std::endl;
-                out.close();
-                client.stop();
-            };
-            outputConnection.on_write_failure(on_write_failure);
-
-            auto on_read_failure = [&](std::error_code ec, protocol::OutputConnection &out) {
-                std::cerr << "on_read_failure: " << ec.message() << std::endl;
-                out.close();
-            };
-            outputConnection.on_read_failure(on_read_failure);
-
-            auto on_read_success = [&] (const protocol::serialize::Response &response, protocol::OutputConnection &out) {
-
-                std::cout << "on_read_success: Reading something" << std::endl;
-                if (response.header.statusCode == protocol::serialize::StatusCode::CLIENT_CONNECTED) {
-
-                    std::cout << "on_read_success: Setting the new read function" << std::endl;
-                    auto playerId = response.body.content()[0];
-                    auto roomId = response.body.content()[1];
-                    auto on_read_send_msg_success = [&] (const protocol::serialize::Response &response, protocol::OutputConnection &out) {
-
-                        if (response.header.statusCode == protocol::serialize::StatusCode::OK) {
-                            std::cout << "Send message: Success" << std::endl;
-                        }
-
-                    };
-
-                    out.on_read_success(on_read_send_msg_success);
-                    std::cout << "on_read_success: Send a simple message now" << std::endl;
-                    auto request = protocol::make_request(protocol::serialize::OpCode::SEND_MESSAGE, {roomId, "BONJOUR LEL"});
-                    out.write(request);
-                }
-            };
-            outputConnection.on_read_success(on_read_success);
-
-            auto on_close = [&] (protocol::OutputConnection &) {
-                std::cerr << "on_close: Stoping the server" << std::endl;
-                client.stop();
-            };
-            outputConnection.on_close(on_close);*/
-
-            //only for testing the app !
-            //auto request = protocol::make_request(protocol::serialize::OpCode::CLIENT_CONNECT, {"Gregorie"});
-            //outputConnection.write(request);
         };
 
         auto on_connection_fails = [&]() {
